@@ -43,9 +43,9 @@ public class GrafanaPlugin implements Plugin<Project> {
 
     private static GrafanaConnectionSettings newGrafanaConnectionSettings(GrafanaConnectionExtension grafanaConnection) {
         return new GrafanaConnectionSettings.Builder()
-                .withUrl(grafanaConnection.grafanaUrl)
-                .withUser(grafanaConnection.grafanaUser)
-                .withPassword(grafanaConnection.grafanaPassword)
+                .withUrl(grafanaConnection.url)
+                .withUser(grafanaConnection.user)
+                .withPassword(grafanaConnection.password)
                 .build();
     }
 
