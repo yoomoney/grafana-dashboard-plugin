@@ -117,7 +117,7 @@ public class DashboardUpserter {
     }
 
     /**
-     * Получение настроек dashboard иp Grafana по title
+     * Получение настроек dashboard из Grafana по title
      *
      * @param dashboardTitle название dashboard
      * @return настройки дашборда с указанным title
