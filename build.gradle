@@ -1,0 +1,74 @@
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/build-utils.gradle'
+apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-git-flow.gradle'
+apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-test.gradle'
+apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/coverage.gradle'
+apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/release/library-release.gradle'
+
+group 'ru.yandex.money.gradle.plugins'
+
+repositories {
+    maven { url 'http://nexus.yamoney.ru/content/repositories/central/' }
+    maven { url 'http://nexus.yamoney.ru/content/repositories/releases/' }
+    maven { url 'http://nexus.yamoney.ru/content/repositories/jcenter.bintray.com/' }
+    maven { url 'http://nexus.yamoney.ru/content/repositories/atlassian-public/' }
+}
+
+buildscript {
+    repositories {
+        maven { url 'http://nexus.yamoney.ru/content/repositories/central/' }
+        maven { url 'http://nexus.yamoney.ru/content/repositories/releases/' }
+        maven { url 'http://nexus.yamoney.ru/content/repositories/jcenter.bintray.com/' }
+
+        dependencies {
+            classpath 'org.ajoberstar:gradle-git:1.5.0'
+            classpath 'net.researchgate:gradle-release:2.6.0'
+        }
+    }
+}
+
+dependencies {
+    compile localGroovy(),
+            'org.ajoberstar:gradle-git:1.5.0',
+            'org.apache.httpcomponents:httpclient:4.5.3',
+            'com.google.code.findbugs:annotations:3.0.1'
+}
+
+jar {
+    baseName "yamoney-grafana-plugin"
+}
+
+ext {
+    releaseRepoProxyUrl = 'http://nexus.yamoney.ru/content/repositories/releases/'
+    snapshotRepoProxyUrl = 'http://nexus.yamoney.ru/content/repositories/snapshots/'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId jar.getBaseName()
+        }
+    }
+
+    repositories {
+        maven {
+            url project.version.endsWith('-SNAPSHOT') ? project.ext.snapshotRepoProxyUrl : project.ext.releaseRepoProxyUrl
+            credentials {
+                def nexusUser = System.getenv('NEXUS_USER')
+                if (nexusUser == "") {
+                    throw new IllegalStateException("Cannot publish plugins. Nexus user name is empty.'")
+                }
+                def nexusPassword = System.getenv('NEXUS_PASSWORD')
+                if (nexusPassword == "") {
+                    throw new IllegalStateException("Cannot publish plugins. Nexus user password is empty.'")
+                }
+                username nexusUser
+                password nexusPassword
+            }
+        }
+    }
+}
