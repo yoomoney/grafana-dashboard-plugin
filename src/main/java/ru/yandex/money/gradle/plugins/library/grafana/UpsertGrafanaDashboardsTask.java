@@ -9,13 +9,14 @@ import org.gradle.api.tasks.TaskAction;
 import ru.yandex.money.gradle.plugins.library.grafana.dashboard.DashboardSender;
 import ru.yandex.money.gradle.plugins.library.grafana.settings.GrafanaConnectionSettings;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Task для вставки/обновления всех dashboard из репозитория в Grafana
@@ -23,7 +24,6 @@ import java.util.regex.Pattern;
 @SuppressWarnings("ClassWithoutConstructor")
 public class UpsertGrafanaDashboardsTask extends DefaultTask {
     private final Logger log = Logging.getLogger(UpsertGrafanaDashboardsTask.class);
-    private static final Pattern GRAFANA_FILE_NAME = Pattern.compile(".*\\.json");
     private static final String GRAFANA_DIRECTORY = "grafana";
 
     static final String TASK_NAME = "upsertGrafanaDashboards";
@@ -39,46 +39,61 @@ public class UpsertGrafanaDashboardsTask extends DefaultTask {
     @TaskAction
     void upsertGrafanaDashboardsFromRepo() throws IOException {
         log.lifecycle("Finding dashboards to upsert");
-        List<File> dashboards = getFilesWithGrafanaDashboards();
 
-        if (dashboards.isEmpty()) {
-            log.lifecycle("No dashboards in repo");
-            return;
-        }
-        log.lifecycle("Upserting dashboards to Grafana, count={}", dashboards.size());
-        upsertGrafanaDashboards(dashboards);
-    }
-
-    /**
-     * Получение списка файлов с настройкам dashboards
-     *
-     * @return список файлов с настройкам dashboards
-     */
-    private List<File> getFilesWithGrafanaDashboards() {
         File root = new File(GRAFANA_DIRECTORY);
         if (!root.isDirectory()) {
             log.info("Grafana directory not found at {}", GRAFANA_DIRECTORY);
-            return Collections.emptyList();
+            return;
         }
-        File[] files = root.listFiles(file -> GRAFANA_FILE_NAME.matcher(file.getName()).matches());
-        return files == null ? Collections.emptyList() : Arrays.asList(files);
+
+        upsertKotlinScriptDashboards(root);
+        upsertJsonDashboards(root);
     }
 
-    /**
-     * Вставка/обновление списки dashboards из файлов
-     *
-     * @param dashboardFiles список файлов с dashboards
-     * @throws IOException в случае проблем с IO
-     */
-    private void upsertGrafanaDashboards(List<File> dashboardFiles) throws IOException {
+    private void upsertKotlinScriptDashboards(File root) throws IOException {
+        File[] files = root.listFiles(file -> file.getName().toLowerCase().endsWith(".kts"));
+        List<File> dashboards = files == null ? Collections.emptyList() : Arrays.asList(files);
+        if (dashboards.isEmpty()) {
+            log.lifecycle("No kotlin dashboards in repo");
+            return;
+        }
+
+        log.lifecycle("Upserting kotlin dsl dashboards to Grafana, count={}", dashboards.size());
+
+        ScriptEngine kotlinScript = new ScriptEngineManager().getEngineByExtension("kts");
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             DashboardSender sender = new DashboardSender(client, grafanaConnectionSettings);
-            dashboardFiles.forEach(file -> {
+            dashboards.forEach(file -> {
+                try {
+                    String dashboardScript = new String(Files.readAllBytes(file.toPath()), "UTF-8");
+                    String dashboardContent = (String) kotlinScript.eval(dashboardScript);
+                    sender.sendContentToGrafana(dashboardContent);
+                    log.info("Successfully processed {}", file.getPath());
+                } catch (Exception e) {
+                    log.error("Error during upsert file: {}", file.getPath(), e);
+                }
+            });
+        }
+    }
+
+    private void upsertJsonDashboards(File root) throws IOException {
+        File[] files = root.listFiles(file -> file.getName().toLowerCase().endsWith(".json"));
+        List<File> dashboards = files == null ? Collections.emptyList() : Arrays.asList(files);
+        if (dashboards.isEmpty()) {
+            log.lifecycle("No json dashboards in repo");
+            return;
+        }
+
+        log.lifecycle("Upserting json dashboards to Grafana, count={}", dashboards.size());
+
+        try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
+            DashboardSender sender = new DashboardSender(client, grafanaConnectionSettings);
+            dashboards.forEach(file -> {
                 try {
                     String dashboardContent = new String(Files.readAllBytes(file.toPath()), "UTF-8");
                     sender.sendContentToGrafana(dashboardContent);
                     log.info("Successfully processed {}", file.getPath());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     log.error("Error during upsert file: {}", file.getPath(), e);
                 }
             });
