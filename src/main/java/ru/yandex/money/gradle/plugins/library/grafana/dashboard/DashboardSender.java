@@ -50,7 +50,7 @@ public class DashboardSender {
         request.setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType());
         request.setHeader(HttpHeaders.AUTHORIZATION, getAuthHeader());
 
-        request.setEntity(new StringEntity("{\"message\": \"Auto import\", \"folderId\": 0, \"overwrite\": false, " +
+        request.setEntity(new StringEntity("{\"message\": \"Auto import\", \"folderId\": 0, \"overwrite\": true, " +
                 "\"dashboard\": " + dashboardContent + '}'));
 
         try (CloseableHttpResponse response = client.execute(request)) {
