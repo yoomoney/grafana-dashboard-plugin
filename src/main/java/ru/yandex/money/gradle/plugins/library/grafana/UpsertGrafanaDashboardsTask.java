@@ -6,7 +6,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.TaskAction;
-import ru.yandex.money.gradle.plugins.library.grafana.dashboard.DashboardUpserter;
+import ru.yandex.money.gradle.plugins.library.grafana.dashboard.DashboardSender;
 import ru.yandex.money.gradle.plugins.library.grafana.settings.GrafanaConnectionSettings;
 
 import java.io.File;
@@ -72,11 +72,11 @@ public class UpsertGrafanaDashboardsTask extends DefaultTask {
      */
     private void upsertGrafanaDashboards(List<File> dashboardFiles) throws IOException {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            DashboardUpserter upserter = new DashboardUpserter(client, grafanaConnectionSettings);
+            DashboardSender sender = new DashboardSender(client, grafanaConnectionSettings);
             dashboardFiles.forEach(file -> {
                 try {
                     String dashboardContent = new String(Files.readAllBytes(file.toPath()), "UTF-8");
-                    upserter.upsertDashboard(dashboardContent);
+                    sender.sendContentToGrafana(dashboardContent);
                     log.info("Successfully processed {}", file.getPath());
                 } catch (IOException e) {
                     log.error("Error during upsert file: {}", file.getPath(), e);

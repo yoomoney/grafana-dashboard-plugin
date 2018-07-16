@@ -23,7 +23,7 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 /**
  * Класс для обновления/вставки dashboard
  */
-public class DashboardUpserter {
+public class DashboardSender {
     private final CloseableHttpClient client;
     private final GrafanaConnectionSettings grafanaConnectionSettings;
 
@@ -33,25 +33,9 @@ public class DashboardUpserter {
      * @param client                    http клиент для внешних вызовов
      * @param grafanaConnectionSettings настройки подключения к Grafana
      */
-    public DashboardUpserter(CloseableHttpClient client, GrafanaConnectionSettings grafanaConnectionSettings) {
+    public DashboardSender(CloseableHttpClient client, GrafanaConnectionSettings grafanaConnectionSettings) {
         this.client = client;
         this.grafanaConnectionSettings = grafanaConnectionSettings;
-    }
-
-    /**
-     * Обновление/вставка dashboard в Grafana
-     *
-     * @param dashboardContent содержимое dashboard
-     * @throws IOException в случае различных проблем с IO при работе с dashboard
-     */
-    public void upsertDashboard(String dashboardContent) throws IOException {
-        String fixedDashboardContext = "{" +
-                "\"dashboard\": " + dashboardContent + ",\n" +
-                "  \"folderId\": 0,\n" +
-                "  \"message\": \"Auto import\",\n" +
-                "  \"overwrite\": true\n" +
-                "}";
-        sendContentToGrafana(fixedDashboardContext);
     }
 
     /**
@@ -60,13 +44,14 @@ public class DashboardUpserter {
      * @param dashboardContent содержимое dashboard
      * @throws IOException в случае IO проблем
      */
-    private void sendContentToGrafana(String dashboardContent) throws IOException {
+    public void sendContentToGrafana(String dashboardContent) throws IOException {
         HttpPost request = new HttpPost(grafanaConnectionSettings.getUrl() + "/api/dashboards/db");
         request.setHeader(ACCEPT, APPLICATION_JSON.getMimeType());
         request.setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType());
         request.setHeader(HttpHeaders.AUTHORIZATION, getAuthHeader());
 
-        request.setEntity(new StringEntity("{\"overwrite\": false, \"dashboard\": " + dashboardContent + '}'));
+        request.setEntity(new StringEntity("{\"message\": \"Auto import\", \"folderId\": 0, \"overwrite\": false, " +
+                "\"dashboard\": " + dashboardContent + '}'));
 
         try (CloseableHttpResponse response = client.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();

@@ -1,5 +1,9 @@
 # GrafanaPlugin
 
+## [1.0.4]() (16-07-2017)
+
+Upserter -> Sender
+
 ## [1.0.3]() (16-07-2017)
 
 Обертка для dashboard
