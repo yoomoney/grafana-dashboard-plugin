@@ -2,11 +2,15 @@ apply plugin: 'java-gradle-plugin'
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 
-apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/build-utils.gradle'
-apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-git-flow.gradle'
-apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-test.gradle'
-apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/coverage.gradle'
-apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/release/library-release.gradle'
+project.ext.kotlinVersion = "1.2.50"
+
+apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/build-utils.gradle'
+apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-git-flow.gradle'
+apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-test.gradle'
+apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/coverage.gradle'
+apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/release/library-release.gradle'
+apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/snapshot-dependencies.gradle'
+apply from: 'build-kotlin.gradle'
 
 group 'ru.yandex.money.gradle.plugins'
 
@@ -15,6 +19,7 @@ repositories {
     maven { url 'http://nexus.yamoney.ru/content/repositories/releases/' }
     maven { url 'http://nexus.yamoney.ru/content/repositories/jcenter.bintray.com/' }
     maven { url 'http://nexus.yamoney.ru/content/repositories/atlassian-public/' }
+    maven { url 'http://nexus.yamoney.ru/content/repositories/snapshots/' }
 }
 
 buildscript {
@@ -32,7 +37,11 @@ buildscript {
 dependencies {
     compile localGroovy(),
             'org.apache.httpcomponents:httpclient:4.5.3',
-            'com.google.code.findbugs:annotations:3.0.1'
+            'com.google.code.findbugs:annotations:3.0.1',
+            "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion",
+            "org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion"
+
+    compile 'ru.yandex.money.common:yamoney-grafana-kotlin-dsl:0.1.0'
 }
 
 jar {
