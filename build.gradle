@@ -9,6 +9,7 @@ apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build
 apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-test.gradle'
 apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/coverage.gradle'
 apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/release/library-release.gradle'
+apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/snapshot-dependencies.gradle'
 apply from: 'build-kotlin.gradle'
 
 group 'ru.yandex.money.gradle.plugins'
