@@ -3,13 +3,14 @@ package ru.yandex.money.gradle.plugins.library.grafana;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.TaskAction;
+import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngine;
 import ru.yandex.money.gradle.plugins.library.grafana.dashboard.DashboardSender;
 import ru.yandex.money.gradle.plugins.library.grafana.settings.GrafanaConnectionSettings;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class UpsertGrafanaDashboardsTask extends DefaultTask {
     static final String TASK_NAME = "upsertGrafanaDashboards";
 
     private GrafanaConnectionSettings grafanaConnectionSettings;
+
+    private Configuration grafanaConfiguration;
 
     /**
      * Основное действие
@@ -60,7 +63,9 @@ public class UpsertGrafanaDashboardsTask extends DefaultTask {
 
         log.lifecycle("Upserting kotlin dsl dashboards to Grafana, count={}", dashboards.size());
 
-        ScriptEngine kotlinScript = new ScriptEngineManager().getEngineByExtension("kts");
+        KotlinJsr223JvmLocalScriptEngine kotlinScript = (KotlinJsr223JvmLocalScriptEngine) new ScriptEngineManager()
+                .getEngineByExtension("kts");
+        kotlinScript.getTemplateClasspath().addAll(grafanaConfiguration.getFiles());
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             DashboardSender sender = new DashboardSender(client, grafanaConnectionSettings);
             dashboards.forEach(file -> {
@@ -102,5 +107,9 @@ public class UpsertGrafanaDashboardsTask extends DefaultTask {
 
     void setGrafanaConnectionSettings(GrafanaConnectionSettings grafanaConnectionSettings) {
         this.grafanaConnectionSettings = grafanaConnectionSettings;
+    }
+
+    void setGrafanaConfiguration(Configuration grafanaConfiguration) {
+        this.grafanaConfiguration = grafanaConfiguration;
     }
 }
