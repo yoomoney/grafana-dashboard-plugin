@@ -40,8 +40,6 @@ dependencies {
             'com.google.code.findbugs:annotations:3.0.1',
             "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion",
             "org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion"
-
-    compile 'ru.yandex.money.common:yamoney-grafana-kotlin-dsl:0.1.0'
 }
 
 jar {

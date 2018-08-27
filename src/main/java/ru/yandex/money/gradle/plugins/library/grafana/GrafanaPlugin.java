@@ -2,6 +2,7 @@ package ru.yandex.money.gradle.plugins.library.grafana;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Configuration;
 import ru.yandex.money.gradle.plugins.library.grafana.settings.GrafanaConnectionExtension;
 import ru.yandex.money.gradle.plugins.library.grafana.settings.GrafanaConnectionSettings;
 
@@ -12,6 +13,7 @@ import ru.yandex.money.gradle.plugins.library.grafana.settings.GrafanaConnection
 public class GrafanaPlugin implements Plugin<Project> {
 
     private static final String GRAFANA_EXTENSION_NAME = "grafana";
+    private static final String GRAFANA_CONFIGURATION_NAME = "grafana";
 
     /**
      * Действия при применении плагина GrafanaPlugin
@@ -20,7 +22,11 @@ public class GrafanaPlugin implements Plugin<Project> {
      */
     @Override
     public void apply(Project target) {
-        UpsertGrafanaDashboardsTask upsertGrafanaDashboardsTask = upsertGrafanaDashboardTask(target);
+        Configuration grafanaConfiguration = target.getConfigurations().maybeCreate(GRAFANA_CONFIGURATION_NAME);
+        UpsertGrafanaDashboardsTask upsertGrafanaDashboardsTask = upsertGrafanaDashboardTask(
+                target,
+                grafanaConfiguration
+        );
 
         GrafanaConnectionExtension grafanaConnection =
                 target.getExtensions().create(GRAFANA_EXTENSION_NAME, GrafanaConnectionExtension.class);
@@ -29,11 +35,12 @@ public class GrafanaPlugin implements Plugin<Project> {
                 upsertGrafanaDashboardsTask.setGrafanaConnectionSettings(newGrafanaConnectionSettings(grafanaConnection)));
     }
 
-    private static UpsertGrafanaDashboardsTask upsertGrafanaDashboardTask(Project target) {
+    private static UpsertGrafanaDashboardsTask upsertGrafanaDashboardTask(Project target, Configuration configuration) {
         UpsertGrafanaDashboardsTask task = target.getTasks().create(UpsertGrafanaDashboardsTask.TASK_NAME,
                 UpsertGrafanaDashboardsTask.class);
         task.setGroup("other");
         task.setDescription("Upsert Grafana dashboard");
+        task.setGrafanaConfiguration(configuration);
         return task;
     }
 
