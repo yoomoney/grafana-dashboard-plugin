@@ -1,38 +1,22 @@
-apply plugin: 'java-gradle-plugin'
-apply plugin: 'groovy'
-apply plugin: 'maven-publish'
-
-project.ext.kotlinVersion = "1.2.50"
-
-apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/build-utils.gradle'
-apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-git-flow.gradle'
-apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/build-test.gradle'
-apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/coverage.gradle'
-apply from: 'https://jenkins-dev.yamoney.ru/build-scripts/backend-platform/release/library-release.gradle'
-apply from: 'http://jenkins-dev.yamoney.ru/build-scripts/backend-platform/snapshot-dependencies.gradle'
-apply from: 'build-kotlin.gradle'
-
-group 'ru.yandex.money.gradle.plugins'
-
-repositories {
-    maven { url 'http://nexus.yamoney.ru/content/repositories/central/' }
-    maven { url 'http://nexus.yamoney.ru/content/repositories/releases/' }
-    maven { url 'http://nexus.yamoney.ru/content/repositories/jcenter.bintray.com/' }
-    maven { url 'http://nexus.yamoney.ru/content/repositories/atlassian-public/' }
-    maven { url 'http://nexus.yamoney.ru/content/repositories/snapshots/' }
-}
-
 buildscript {
-    repositories {
-        maven { url 'http://nexus.yamoney.ru/content/repositories/central/' }
-        maven { url 'http://nexus.yamoney.ru/content/repositories/releases/' }
-        maven { url 'http://nexus.yamoney.ru/content/repositories/jcenter.bintray.com/' }
-
-        dependencies {
-            classpath 'net.researchgate:gradle-release:2.6.0'
-        }
+    apply from: 'project.gradle', to: buildscript
+    copy {
+        from zipTree(buildscript.configurations.classpath.files.find{ it.name.contains('gradle-project-plugin')})
+        into 'tmp'
+        include 'gradle-scripts/**'
     }
 }
+apply from: 'tmp/gradle-scripts/_root.gradle'
+/////////////////////////////////////////////
+
+//noinspection GroovyUnusedAssignment
+groupIdSuffix = "gradle.plugins"
+//noinspection GroovyUnusedAssignment
+artifactID = "yamoney-grafana-plugin"
+
+project.ext.kotlinVersion = "1.2.50"
+apply from: 'build-kotlin.gradle'
+
 
 dependencies {
     compile localGroovy(),
@@ -40,40 +24,4 @@ dependencies {
             'com.google.code.findbugs:annotations:3.0.1',
             "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion",
             "org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion"
-}
-
-jar {
-    baseName "yamoney-grafana-plugin"
-}
-
-ext {
-    releaseRepoProxyUrl = 'http://nexus.yamoney.ru/content/repositories/releases/'
-    snapshotRepoProxyUrl = 'http://nexus.yamoney.ru/content/repositories/snapshots/'
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifactId jar.getBaseName()
-        }
-    }
-
-    repositories {
-        maven {
-            url project.version.endsWith('-SNAPSHOT') ? project.ext.snapshotRepoProxyUrl : project.ext.releaseRepoProxyUrl
-            credentials {
-                def nexusUser = System.getenv('NEXUS_USER')
-                if (nexusUser == "") {
-                    throw new IllegalStateException("Cannot publish plugins. Nexus user name is empty.'")
-                }
-                def nexusPassword = System.getenv('NEXUS_PASSWORD')
-                if (nexusPassword == "") {
-                    throw new IllegalStateException("Cannot publish plugins. Nexus user password is empty.'")
-                }
-                username nexusUser
-                password nexusPassword
-            }
-        }
-    }
 }

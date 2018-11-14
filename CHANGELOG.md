@@ -1,5 +1,10 @@
 # GrafanaPlugin
 
+
+## [1.0.9]() (14-11-2018)
+
+Сборка при помощи gradle-project-plugin
+
 ## [1.0.4]() (16-07-2017)
 
 Upserter -> Sender
