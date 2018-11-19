@@ -9,19 +9,19 @@ buildscript {
 apply from: 'tmp/gradle-scripts/_root.gradle'
 /////////////////////////////////////////////
 
-//noinspection GroovyUnusedAssignment
-groupIdSuffix = "gradle.plugins"
-//noinspection GroovyUnusedAssignment
-artifactID = "yamoney-grafana-plugin"
-
-project.ext.kotlinVersion = "1.2.50"
-apply from: 'build-kotlin.gradle'
-
+pluginId = 'yamoney-grafana-plugin'
+gradlePlugin {
+    plugins {
+        grafanaPlugin {
+            id = pluginId
+            implementationClass = 'ru.yandex.money.gradle.plugins.library.grafana.GrafanaPlugin'
+        }
+    }
+}
 
 dependencies {
-    compile localGroovy(),
-            'org.apache.httpcomponents:httpclient:4.5.3',
+    compile 'org.apache.httpcomponents:httpclient:4.5.3',
             'com.google.code.findbugs:annotations:3.0.1',
-            "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion"
+            "org.jetbrains.kotlin:kotlin-compiler-embeddable:${System.getProperty('kotlinVersion')}",
+            "org.jetbrains.kotlin:kotlin-script-util:${System.getProperty('kotlinVersion')}"
 }
