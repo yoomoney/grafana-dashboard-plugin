@@ -1,4 +1,4 @@
-package ru.yandex.money.gradle.plugins.library.grafana.settings;
+package ru.yandex.money.gradle.plugins.grafana.dashboard.impl;
 
 /**
  * Настройки подключения к Grafana
@@ -18,28 +18,33 @@ public class GrafanaConnectionSettings {
     /**
      * Url для подключения к Grafana
      */
-    public String getUrl() {
+    String getUrl() {
         return url;
     }
 
     /**
      * пользователь для подключения к Grafana
      */
-    public String getUser() {
+    String getUser() {
         return user;
     }
 
     /**
      * пароль для подключения к Grafana
      */
-    public String getPassword() {
+    String getPassword() {
         return password;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**
      * Билдер
      */
     public static final class Builder {
+
         private String url;
         private String user;
         private String password;

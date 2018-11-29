@@ -1,0 +1,189 @@
+System.setProperty("kotlinVersion", "1.2.71")
+buildscript {
+    repositories {
+        jcenter()
+        dependencies {
+            classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + System.getProperty('kotlinVersion')
+        }
+    }
+}
+
+plugins {
+    id "com.jfrog.bintray" version "1.8.4"
+    id "com.gradle.plugin-publish" version "0.10.0"
+    id "java-gradle-plugin"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+task wrapper(type: Wrapper) {
+    distributionType = Wrapper.DistributionType.ALL
+    jarFile = "${project.projectDir}/gradle-public/wrapper/gradle-wrapper.jar"
+    scriptFile = "${project.projectDir}/gradlew-public"
+    gradleVersion = '4.10.2'
+}
+
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply from: 'dependencies.gradle'
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+jar {
+    manifest {
+        attributes(
+                'Implementation-Version': "$project.version",
+                'Implementation-Title': "$project.name",
+                'Built-By': java.lang.System.getProperty('user.name'),
+                'Built-Date': new Date().format('yyyy-MM-dd'),
+                'Copyright': '2018 NBCO Yandex.Money LLC',
+                'License': 'MIT'
+        )
+    }
+
+    from(projectDir.absolutePath) {
+        include "CHANGELOG.md", "README.md"
+        into "META-INF"
+    }
+}
+
+apply plugin: 'idea'
+idea {
+    project {
+        jdkName = '1.8'
+        languageLevel = '1.8'
+        vcs = 'Git'
+    }
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+test {
+    systemProperty "file.encoding", "UTF-8"
+    testLogging {
+        events "skipped", "failed"
+        exceptionFormat "full"
+        showExceptions true
+        showCauses true
+        showStackTraces true
+    }
+}
+tasks.withType(Test) {
+    exclude 'ru/yandex/money/gradle/plugins/grafana/private/**'
+}
+
+apply plugin: "jacoco"
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+}
+check.dependsOn jacocoTestReport
+
+javadoc {
+    options {
+        docEncoding = 'UTF-8'
+        charSet = 'UTF-8'
+        encoding = 'UTF-8'
+        failOnError = true
+    }
+}
+
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+name = 'grafana-dashboard-plugin'
+group = 'com.yandex.money.tech'
+
+gradlePlugin {
+    displayName = 'Grafana Dashboard Publication Plugin'
+    plugins {
+        grafanaDashboardPlugin {
+            id = 'com.yandex.money.tech.grafana-dashboard-plugin'
+            implementationClass = 'ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/yandex-money-tech/grafana-dashboard-plugin'
+    vcsUrl = 'https://github.com/yandex-money-tech/grafana-dashboard-plugin.git'
+    description = 'Gradle plugin for grafana dashboards publication'
+    tags = ['grafana', 'dsl', 'gradle', 'plugin']
+}
+
+publishPlugins.onlyIf { !project.version.endsWith("-SNAPSHOT") }
+
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId group
+            artifactId name
+            version project.version
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+bintrayUpload.onlyIf { !project.version.endsWith("-SNAPSHOT") }
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_API_KEY')
+    publications = ['MyPublication']
+
+    dryRun = false
+    publish = true
+    pkg {
+        name = 'grafana-dashboard-plugin'
+        repo = 'maven'
+        userOrg = 'yandex-money-tech'
+        desc = 'Gradle plugin for grafana dashboards publication'
+        websiteUrl = 'https://github.com/yandex-money-tech/grafana-dashboard-plugin'
+        issueTrackerUrl = 'https://github.com/yandex-money-tech/grafana-dashboard-plugin/issues'
+        vcsUrl = 'https://github.com/yandex-money-tech/grafana-dashboard-plugin.git'
+        licenses = ['MIT']
+        labels = ['grafana', 'dsl', 'gradle', 'plugin']
+        publicDownloadNumbers = true
+        githubRepo = 'yandex-money-tech/grafana-dashboard-plugin'
+        githubReleaseNotesFile = 'CHANGELOG.md'
+        version {
+            name = project.version
+            released = new Date()
+            vcsTag = project.version
+        }
+    }
+}
