@@ -32,7 +32,7 @@
 
 ```groovy
 plugins {
-    id 'com.yandex.money.tech.grafana-dashboard-plugin' version '2.0.1'
+    id 'com.yandex.money.tech.grafana-dashboard-plugin' version '2.0.2'
 }
 
 grafana {

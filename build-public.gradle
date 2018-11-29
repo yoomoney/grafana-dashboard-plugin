@@ -149,7 +149,7 @@ publishing {
         MyPublication(MavenPublication) {
             from components.java
             groupId group
-            artifactId name
+            artifactId 'grafana-dashboard-plugin'
             version project.version
             artifact sourcesJar
             artifact javadocJar
