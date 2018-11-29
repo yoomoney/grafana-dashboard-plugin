@@ -27,7 +27,7 @@ public class KotlinScriptContentCreator implements DashboardContentCreator {
     }
 
     @Override
-    public boolean isProcessable(@NotNull File file) {
+    public boolean isSupported(@NotNull File file) {
         return file.getName().toLowerCase().endsWith(".kts");
     }
 

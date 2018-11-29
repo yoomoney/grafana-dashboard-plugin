@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO:
+ * Загрузчик описаний дашбордов в grafana
  *
  * @author Oleg Kandaurov
  * @since 29.11.2018
@@ -23,12 +23,12 @@ public class GrafanaDashboardUploader {
     private final Logger log = Logging.getLogger(GrafanaDashboardUploader.class);
 
     private final List<DashboardContentCreator> dashboardContentCreators;
-    private final GrafanaConnectionSettings grafanaConnectionSettings;
+    private final GrafanaUploadSettings grafanaUploadSettings;
 
     public GrafanaDashboardUploader(List<DashboardContentCreator> dashboardContentCreators,
-                                    GrafanaConnectionSettings grafanaConnectionSettings) {
+                                    GrafanaUploadSettings grafanaUploadSettings) {
         this.dashboardContentCreators = new ArrayList<>(dashboardContentCreators);
-        this.grafanaConnectionSettings = grafanaConnectionSettings;
+        this.grafanaUploadSettings = grafanaUploadSettings;
     }
 
     /**
@@ -43,7 +43,7 @@ public class GrafanaDashboardUploader {
             return;
         }
         File[] files = targetDir.listFiles(pathname -> dashboardContentCreators.stream()
-                .anyMatch(creator -> creator.isProcessable(pathname)));
+                .anyMatch(creator -> creator.isSupported(pathname)));
         List<File> dashboards = files == null ? Collections.emptyList() : Arrays.asList(files);
         if (dashboards.isEmpty()) {
             log.lifecycle("No grafana dashboards: dir={}", targetDir.getAbsolutePath());
@@ -51,23 +51,23 @@ public class GrafanaDashboardUploader {
         }
 
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-            DashboardSender sender = new DashboardSender(client, grafanaConnectionSettings);
+            DashboardSender sender = new DashboardSender(client, grafanaUploadSettings);
             dashboards.forEach(file -> dashboardContentCreators.stream()
-                    .filter(creator -> creator.isProcessable(file)).findFirst()
+                    .filter(creator -> creator.isSupported(file)).findFirst()
                     .map(creator -> {
-                        log.lifecycle("processing dashboard content: file={}", file.getName());
+                        log.lifecycle("Processing dashboard content: file={}", file.getName());
                         return creator.createContent(file);
                     })
                     .ifPresent(dashboardContent -> {
-                        log.info("saving dashboard content to grafana: file={}, content =\n\n{}\n\n", file.getName(), dashboardContent);
+                        log.info("Saving dashboard content to grafana: file={}, content =\n\n{}\n\n", file.getName(), dashboardContent);
                         try {
                             sender.sendContentToGrafana(dashboardContent);
                         } catch (IOException e) {
-                            throw new RuntimeException("cannot send dashboard content to grafana", e);
+                            throw new RuntimeException("Cannot send dashboard content to grafana", e);
                         }
                     }));
         } catch (IOException e) {
-            throw new RuntimeException("cannot close http client", e);
+            throw new RuntimeException("Cannot close http client", e);
         }
     }
 

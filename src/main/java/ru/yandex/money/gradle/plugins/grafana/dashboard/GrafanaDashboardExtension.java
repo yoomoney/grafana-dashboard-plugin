@@ -24,4 +24,14 @@ public class GrafanaDashboardExtension {
      * Директория с описанием дашбордов
      */
     public String dir = "grafana";
+
+    /**
+     * Идентификатор папки для сохранения дашборда http://docs.grafana.org/http_api/folder/
+     */
+    public String folderId = "0";
+
+    /**
+     * Перезаписывать-ли содержимое дашборда
+     */
+    public Boolean overwrite = true;
 }

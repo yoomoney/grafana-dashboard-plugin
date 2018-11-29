@@ -30,15 +30,13 @@ abstract class GrafanaDashboardPluginSpec {
 
     private val testProjectDir = TemporaryFolder()
     private lateinit var buildFile: File
-    private val grafanaPort: Int = getFreeRandomLocalPort()
 
-    fun getFreeRandomLocalPort(): Int {
+    private val grafanaPort: Int by lazy {
         try {
-            ServerSocket(0).use { socket -> return socket.localPort }
+            ServerSocket(0).use { socket -> socket.localPort }
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-
     }
 
     inner class HelloHandler : AbstractHandler() {
@@ -94,8 +92,8 @@ abstract class GrafanaDashboardPluginSpec {
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":uploadGrafanaDashboards")?.outcome)
         assertTrue(result.output.contains("Goodbye!!!"))
-        assertTrue(result.output.contains("processing dashboard content: file=test-json.json"))
-        assertTrue(result.output.contains("processing dashboard content: file=test-kotlin.kts"))
+        assertTrue(result.output.contains("Processing dashboard content: file=test-json.json"))
+        assertTrue(result.output.contains("Processing dashboard content: file=test-kotlin.kts"))
     }
 
 }

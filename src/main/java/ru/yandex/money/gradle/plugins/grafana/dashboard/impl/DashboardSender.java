@@ -25,17 +25,17 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
  */
 class DashboardSender {
     private final CloseableHttpClient client;
-    private final GrafanaConnectionSettings grafanaConnectionSettings;
+    private final GrafanaUploadSettings grafanaUploadSettings;
 
     /**
      * Конструктор
      *
      * @param client                    http клиент для внешних вызовов
-     * @param grafanaConnectionSettings настройки подключения к Grafana
+     * @param grafanaUploadSettings настройки подключения к Grafana
      */
-    DashboardSender(CloseableHttpClient client, GrafanaConnectionSettings grafanaConnectionSettings) {
+    DashboardSender(CloseableHttpClient client, GrafanaUploadSettings grafanaUploadSettings) {
         this.client = client;
-        this.grafanaConnectionSettings = grafanaConnectionSettings;
+        this.grafanaUploadSettings = grafanaUploadSettings;
     }
 
     /**
@@ -45,13 +45,15 @@ class DashboardSender {
      * @throws IOException в случае IO проблем
      */
     void sendContentToGrafana(String dashboardContent) throws IOException {
-        HttpPost request = new HttpPost(grafanaConnectionSettings.getUrl() + "/api/dashboards/db");
+        HttpPost request = new HttpPost(grafanaUploadSettings.getUrl() + "/api/dashboards/db");
         request.setHeader(ACCEPT, APPLICATION_JSON.getMimeType());
         request.setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType());
         request.setHeader(HttpHeaders.AUTHORIZATION, getAuthHeader());
 
-        request.setEntity(new StringEntity("{\"message\": \"Auto import\", \"folderId\": 0, \"overwrite\": true, " +
-                "\"dashboard\": " + dashboardContent + '}', Charsets.UTF_8));
+        request.setEntity(new StringEntity("{\"message\": \"Auto import\"" +
+                ", \"folderId\": " + grafanaUploadSettings.getFolderId() +
+                ", \"overwrite\": " + grafanaUploadSettings.isOverwrite() +
+                ", \"dashboard\": " + dashboardContent + '}', Charsets.UTF_8));
 
         try (CloseableHttpResponse response = client.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
@@ -77,7 +79,7 @@ class DashboardSender {
 
     private String getAuthHeader() {
         return "Basic " + Base64.getEncoder().encodeToString(
-                (grafanaConnectionSettings.getUser() + ':' + grafanaConnectionSettings.getPassword()).getBytes(UTF_8));
+                (grafanaUploadSettings.getUser() + ':' + grafanaUploadSettings.getPassword()).getBytes(UTF_8));
     }
 
 }

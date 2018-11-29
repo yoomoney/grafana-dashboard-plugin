@@ -3,8 +3,8 @@ package ru.yandex.money.gradle.plugins.grafana.dashboard;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.tasks.TaskAction;
-import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaConnectionSettings;
 import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaDashboardUploader;
+import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaUploadSettings;
 import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.KotlinScriptContentCreator;
 import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.RawContentCreator;
 
@@ -26,10 +26,12 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
     void uploadGrafanaDashboards() {
         new GrafanaDashboardUploader(
                 Arrays.asList(new RawContentCreator(), new KotlinScriptContentCreator(grafanaConfiguration)),
-                new GrafanaConnectionSettings.Builder()
+                new GrafanaUploadSettings.Builder()
                         .withUrl(grafanaDashboardExtension.url)
                         .withUser(grafanaDashboardExtension.user)
                         .withPassword(grafanaDashboardExtension.password)
+                        .withFolderId(grafanaDashboardExtension.folderId)
+                        .withOverwrite(grafanaDashboardExtension.overwrite)
                         .build())
                 .uploadDashboards(Paths.get(getProject().getProjectDir().toString(), grafanaDashboardExtension.dir).toFile());
     }

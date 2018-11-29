@@ -17,7 +17,7 @@ public interface DashboardContentCreator {
      * @param file файл
      * @return признак, что возможно создать контент из заданного файла
      */
-    boolean isProcessable(@Nonnull File file);
+    boolean isSupported(@Nonnull File file);
 
     /**
      * Создать содержимое dashboard на основе заданного файла
