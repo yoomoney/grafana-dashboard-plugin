@@ -1,12 +1,12 @@
-package ru.yandex.money.gradle.plugins.library.grafana.dashboard;
+package ru.yandex.money.gradle.plugins.grafana.dashboard.impl;
 
+import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import ru.yandex.money.gradle.plugins.library.grafana.settings.GrafanaConnectionSettings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,19 +23,19 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 /**
  * Класс для обновления/вставки dashboard
  */
-public class DashboardSender {
+class DashboardSender {
     private final CloseableHttpClient client;
-    private final GrafanaConnectionSettings grafanaConnectionSettings;
+    private final GrafanaUploadSettings grafanaUploadSettings;
 
     /**
      * Конструктор
      *
      * @param client                    http клиент для внешних вызовов
-     * @param grafanaConnectionSettings настройки подключения к Grafana
+     * @param grafanaUploadSettings настройки подключения к Grafana
      */
-    public DashboardSender(CloseableHttpClient client, GrafanaConnectionSettings grafanaConnectionSettings) {
+    DashboardSender(CloseableHttpClient client, GrafanaUploadSettings grafanaUploadSettings) {
         this.client = client;
-        this.grafanaConnectionSettings = grafanaConnectionSettings;
+        this.grafanaUploadSettings = grafanaUploadSettings;
     }
 
     /**
@@ -44,14 +44,16 @@ public class DashboardSender {
      * @param dashboardContent содержимое dashboard
      * @throws IOException в случае IO проблем
      */
-    public void sendContentToGrafana(String dashboardContent) throws IOException {
-        HttpPost request = new HttpPost(grafanaConnectionSettings.getUrl() + "/api/dashboards/db");
+    void sendContentToGrafana(String dashboardContent) throws IOException {
+        HttpPost request = new HttpPost(grafanaUploadSettings.getUrl() + "/api/dashboards/db");
         request.setHeader(ACCEPT, APPLICATION_JSON.getMimeType());
         request.setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType());
         request.setHeader(HttpHeaders.AUTHORIZATION, getAuthHeader());
 
-        request.setEntity(new StringEntity("{\"message\": \"Auto import\", \"folderId\": 0, \"overwrite\": true, " +
-                "\"dashboard\": " + dashboardContent + '}'));
+        request.setEntity(new StringEntity("{\"message\": \"Auto import\"" +
+                ", \"folderId\": " + grafanaUploadSettings.getFolderId() +
+                ", \"overwrite\": " + grafanaUploadSettings.isOverwrite() +
+                ", \"dashboard\": " + dashboardContent + '}', Charsets.UTF_8));
 
         try (CloseableHttpResponse response = client.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
@@ -77,7 +79,7 @@ public class DashboardSender {
 
     private String getAuthHeader() {
         return "Basic " + Base64.getEncoder().encodeToString(
-                (grafanaConnectionSettings.getUser() + ':' + grafanaConnectionSettings.getPassword()).getBytes(UTF_8));
+                (grafanaUploadSettings.getUser() + ':' + grafanaUploadSettings.getPassword()).getBytes(UTF_8));
     }
 
 }
