@@ -1,5 +1,5 @@
-System.setProperty("kotlinVersion", "1.2.71")
 buildscript {
+    System.setProperty("kotlinVersion", "1.2.71")
     repositories {
         jcenter()
         dependencies {
@@ -122,15 +122,14 @@ artifacts {
     archives sourcesJar, javadocJar
 }
 
-name = 'grafana-dashboard-plugin'
 group = 'com.yandex.money.tech'
 
 gradlePlugin {
-    displayName = 'Grafana Dashboard Publication Plugin'
     plugins {
         grafanaDashboardPlugin {
             id = 'com.yandex.money.tech.grafana-dashboard-plugin'
             implementationClass = 'ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin'
+            displayName = 'Grafana Dashboard Publication Plugin'
         }
     }
 }

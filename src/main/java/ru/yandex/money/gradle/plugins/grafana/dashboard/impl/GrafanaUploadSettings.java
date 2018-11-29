@@ -44,14 +44,14 @@ public class GrafanaUploadSettings {
     /**
      * Идентификатор папки для сохранения дашборда http://docs.grafana.org/http_api/folder/
      */
-    public String getFolderId() {
+    String getFolderId() {
         return folderId;
     }
 
     /**
      * Перезаписывать-ли содержимое дашборда
      */
-    public boolean isOverwrite() {
+    boolean isOverwrite() {
         return overwrite;
     }
 

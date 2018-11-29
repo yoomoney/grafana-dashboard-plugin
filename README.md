@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/yandex-money-tech/grafana-dashboard-plugin.svg?branch=master)](https://travis-ci.org/yandex-money-tech/grafana-dashboard-plugin)
-[![Build status]()](https://ci.appveyor.com/project/f0y/grafana-dashboard-plugin)
+[![Build status](https://ci.appveyor.com/api/projects/status/pljxjuc9gjdqprt8?svg=true)](https://ci.appveyor.com/project/f0y/grafana-dashboard-plugin)
 [![codecov](https://codecov.io/gh/yandex-money-tech/grafana-dashboard-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/yandex-money-tech/grafana-dashboard-plugin)
-[![Codebeat]()](https://codebeat.co/projects/github-com-yandex-money-grafana-dashboard-plugin-master)
+[![codebeat badge](https://codebeat.co/badges/c91a7632-c469-4cfd-be62-6a1840dc347b)](https://codebeat.co/projects/github-com-yandex-money-tech-grafana-dashboard-plugin-master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Javadoc](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://yandex-money-tech.github.io/grafana-dashboard-plugin/)
 [![Download](https://api.bintray.com/packages/yandex-money-tech/maven/grafana-dashboard-plugin/images/download.svg)](https://bintray.com/yandex-money-tech/maven/grafana-dashboard-plugin/_latestVersion)
@@ -32,7 +32,7 @@
 
 ```groovy
 plugins {
-    id 'com.yandex.money.tech.grafana-dashboard-plugin' version '2.0.0'
+    id 'com.yandex.money.tech.grafana-dashboard-plugin' version '2.0.1'
 }
 
 grafana {
@@ -82,7 +82,7 @@ grafana {
 
 ```groovy
 dependencies {
-    grafanaCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.0.4'
+    grafanaCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.0.5'
 }
 ```
 
