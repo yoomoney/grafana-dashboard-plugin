@@ -43,9 +43,9 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
         Configuration grafanaCompileConfiguration = project.getConfigurations().getByName("grafanaCompile");
         DependencySet grafanaCompileDependencies = grafanaCompileConfiguration.getDependencies();
         grafanaCompileDependencies.add(new DefaultExternalModuleDependency(
-                "org.jetbrains.kotlin", "kotlin-stdlib", "1.2.71"));
+                "org.jetbrains.kotlin", "kotlin-stdlib", "1.2.61"));
         grafanaCompileDependencies.add(new DefaultExternalModuleDependency(
-                "org.jetbrains.kotlin", "kotlin-reflect", "1.2.71"));
+                "org.jetbrains.kotlin", "kotlin-reflect", "1.2.61"));
         return grafanaCompileConfiguration;
     }
 

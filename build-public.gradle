@@ -1,5 +1,5 @@
 buildscript {
-    System.setProperty("kotlinVersion", "1.2.71")
+    System.setProperty("kotlinVersion", "1.2.61")
     repositories {
         jcenter()
         dependencies {
