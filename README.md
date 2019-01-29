@@ -8,27 +8,33 @@
 
 # Grafana Dashboard Plugin
 
-Плагин для автоматизированного создания дашбордов в [Grafana](https://grafana.com)
+Plugin for automatic dashboards creation in [Grafana](https://grafana.com)
 
-# Зачем?
+# Motivation
 
-Главная цель - это облегчение поддержки и сопровождения дашбордов в grafana.
+The primary goal of this project is to ease support and maintenance of dashboards in grafana. 
 
-При большом количестве созданных дашбордов, довольно сложно ответить на вопросы: 
-"Кто создал дашборд?", "Для чего?", "Не сломан ли он?", "Как мне переиспользовать дашборд?".
+We, a team at Yandex.Money, have many dashboards for our projects, and it's often hard to answer these questions:
 
-Для того чтобы уверенно отвечать на данные вопросы, мы, в Яндекс.Деньгах делаем следующее:
- * Храним описания дашбордов в системе контроля версий вместе с кодом микросервиса;
- * На периодической основе, при помощи CI сервера, обновляем содержимое дашборда на основе хранимого описания;
- * Описываем дашборды при помощи [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl).
+* Who created the dashboard?
+* What it's purpose?
+* Is it working correctly?
+* How can i reuse some dashboards?
 
-Данные способ создания и хранения дашбордов позволяет нам:
-* Видеть автора изменений дашборда;
-* Легко понимать по каким метрикам производится мониторинг микросервиса;
-* В случае поломки дашборда - легко восстановить его работоспособность;
-* Переиспользовать дашборды.
+So, to come up to the solution to these answers, we do as following:
 
-# Как подключить?
+* Store dashboards in vcs with application code
+* Have CI jobs for updating dashboards contents
+* Use [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl) for declaring dashboards
+
+These methods of creating and maintaining dashboards allow us:
+
+* See author and changes made in particular dashboards
+* Ease of understanding what metrics used for monitoring application
+* In case of broken dashboard quickly understand and fix the problems
+* Reuse parts of whole contents of dashboards in other application
+
+# Usage
 
 ```groovy
 plugins {
@@ -36,66 +42,74 @@ plugins {
 }
 
 grafana {
-    // Адрес графаны, обязательное поле.
+    // Required, URL to Grafana
     url = 'https://grafana.yamoney.ru'
     
-    // Имя пользователя для подключения к Grafana, обязательное поле.
+    // Required, Grafana username
     user = 'testUser'
     
-    // Пароль для подключения к Grafana, обязательное поле.
+    // Required, Grafana user password
     password = 'test'
     
-    // Директория, в которой лежат описания дашбордов, по умолчанию: 'grafana'
+    // Directory with dashboards descriptions, default is: 'grafana'
     dir = 'grafana'
     
-    // Идентификатор папки для сохранения дашборда http://docs.grafana.org/http_api/folder/, по умолчанию: '0'
+    // Folder id to save to, default is: '0'
     folderId = '0'
     
-    // Перезаписывать-ли содержимое дашборда, по умолчанию: true    
+    // Overwrite existing dashboards, default is: true    
     overwrite = true
 }
 ```
 
-# Как работает?
+# How does it work?
 
-Плагин ищет файлы с описанием дашбордов в соответствующей папке и поддерживает публикацию дашбордов в двух форматах:
+Plugin scans the folder, configured in settings, for files with dashboards description, in following formats:
 
-* JSON (расширение файлов `.json`)
-* Kotlin Script (расширение файлов `.kts`)
+* JSON (file extension `.json`)
+* Kotlin Script (file extension `.kts`)
 
-Для публикации дашбордов следует вызвать таску `uploadGrafanaDashboards`
+Then use task called `uploadGrafanaDashboards` to publish your dashboards
 
 ## JSON
 
-Простой формат, загружается в grafana as is.
-Получить описание в данном формате можно через Dashboard -> Settings -> JSON Model.
+Simple format, uploaded to grafana as is.
+You can check up description in Grafana -> Dashboard -> Settings -> JSON Model.
 
 ## Kotlin Script
 
-В случае данного формата описания, происходит выполнение Kotlin Script, 
-строковый результат выполнения которого должен являться описанием дашборда в JSON формате.
+For this format, plugin executes files with kotlin code and expects that
+an output is a description of dashboards in JSON format.
 
-Наибольшая польза от данного формата достигается при помощи 
-[Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl)
-
-Подключить его можно путем добавления соответствующей зависимости в `grafanaCompile` конфигурацию.
+It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl)
+Just add a dependency to build script, in the `grafanaCompile` source set, as follows:
 
 ```groovy
 dependencies {
-    grafanaCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.0.5'
+    grafanaCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.2.0'
 }
 ```
 
-# Сборка проекта
+# How to contribute?
 
-См. конфигурации Travis (`.travis.yml`) или AppVeyor (`appveyor.yml`).
-В репозитории находятся два gradle-проекта:
-- файлы `build.gradle`, `gradlew`, `gradle/wrapper` относятся к проекту для работы во внутренней инфраструктуре Яндекс.Денег;
-- файлы `build-public.gradle`, `gradlew-public`, `gradle-public/wrapper` относятся к проекту для работы извне.
+Just fork the repo and send us a pull request.
 
-# Импорт проекта в IDE
+Make sure your branch builds without any warnings/issues.
 
-К сожалению на данный момент необходимо перед импортом проекта в Idea заменить файлы:
-- `gradle-public/wrapper/gradle-wrapper.properties` на `gradle/wrapper/gradle-wrapper.properties`,
-- `build-public.gradle` на `build.gradle`.
-Это вызвано багом в Idea: https://github.com/f0y/idea-two-gradle-builds.
+# How to build?
+
+See configuration for Travis (`.travis.yml`) or AppVeyor (`appveyor.yml`).
+There are two gradle projects in this repository:
+
+* Files `build.gradle`, `gradlew`, `gradle/wrapper` is for internal use in Yandex.Money infrastructure
+* Files `build-public.gradle`, `gradlew-public`, `gradle-public/wrapper` are for public use
+
+# Importing into IntelliJ IDEA
+
+Unfortunately, at this moment, intellij does not support this build configuration,
+so you have to change some files before importing:
+
+* Move `gradle-public/wrapper/gradle-wrapper.properties` into `gradle/wrapper/gradle-wrapper.properties`
+* Move `build-public.gradle` into `build.gradle`
+
+Vote for this issue [IDEA-199116](https://youtrack.jetbrains.net/issue/IDEA-199116), to make intellij support these types of configuration.

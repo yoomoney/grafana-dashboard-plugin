@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 /**
- * Создание контента без дополнительных преобразований
+ * Create content without additional modifications
  *
  * @author Oleg Kandaurov
  * @since 29.11.2018

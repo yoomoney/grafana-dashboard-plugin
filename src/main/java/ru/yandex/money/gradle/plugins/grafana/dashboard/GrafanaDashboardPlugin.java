@@ -13,15 +13,15 @@ import org.gradle.api.tasks.SourceSetContainer;
 import java.io.File;
 
 /**
- * Плагин для работы с Grafana
+ * Grafana dashboards plugin
  */
 @SuppressWarnings("ClassWithoutConstructor")
 public class GrafanaDashboardPlugin implements Plugin<Project> {
 
     /**
-     * Действия при применении плагина GrafanaDashboardPlugin
+     * Actions when applying GrafanaDashboardPlugin to a project
      *
-     * @param target проект, для которого применяется плагин
+     * @param target project to apply to
      */
     @Override
     public void apply(Project target) {

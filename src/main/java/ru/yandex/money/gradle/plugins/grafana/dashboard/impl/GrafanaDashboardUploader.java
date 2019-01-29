@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Загрузчик описаний дашбордов в grafana
+ * Grafana dashboard uploader
  *
  * @author Oleg Kandaurov
  * @since 29.11.2018

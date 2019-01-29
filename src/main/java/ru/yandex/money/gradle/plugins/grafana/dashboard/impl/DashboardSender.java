@@ -21,7 +21,7 @@ import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 /**
- * Класс для обновления/вставки dashboard
+ * Dashboards update/insert code
  */
 class DashboardSender {
     private final CloseableHttpClient client;

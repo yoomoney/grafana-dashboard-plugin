@@ -1,7 +1,7 @@
 package ru.yandex.money.gradle.plugins.grafana.dashboard.impl;
 
 /**
- * Настройки подключения к Grafana
+ * Grafana plugin settings
  */
 public class GrafanaUploadSettings {
     private final String url;

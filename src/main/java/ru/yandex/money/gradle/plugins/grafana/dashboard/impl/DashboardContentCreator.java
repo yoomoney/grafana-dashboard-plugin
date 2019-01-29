@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import java.io.File;
 
 /**
- * Интерфейс для реализации способа создания контента
+ * Interface for content creation
  *
  * @author Oleg Kandaurov
  * @since 29.11.2018
@@ -12,18 +12,18 @@ import java.io.File;
 public interface DashboardContentCreator {
 
     /**
-     * Поддерживается-ли заданный тип файла
+     * Is file type supported by this format
      *
-     * @param file файл
-     * @return признак, что возможно создать контент из заданного файла
+     * @param file File
+     * @return Is able to create content from file
      */
     boolean isSupported(@Nonnull File file);
 
     /**
-     * Создать содержимое dashboard на основе заданного файла
+     * Create dashboard content fro specified file
      *
-     * @param file файл
-     * @return содержимое dashboard
+     * @param file File
+     * @return Dashboard content
      */
     String createContent(@Nonnull File file);
 }

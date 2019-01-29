@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 /**
- * Cоздание контента при помощи запуска kotlin-скрипта
+ * Create content based on output of kotlin script
  *
  * @author Oleg Kandaurov
  * @since 29.11.2018

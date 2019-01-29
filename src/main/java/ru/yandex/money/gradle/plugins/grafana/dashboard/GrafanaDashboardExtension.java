@@ -1,37 +1,37 @@
 package ru.yandex.money.gradle.plugins.grafana.dashboard;
 
 /**
- * Настройки подключения к Grafana
+ * Grafana plugin settings
  */
 public class GrafanaDashboardExtension {
 
     /**
-     * Url для доступа к Grafana
+     * Url to Grafana
      */
     public String url;
 
     /**
-     * Grafana user для доступа к Grafana
+     * Grafana username
      */
     public String user;
 
     /**
-     * Grafana password для доступа к Grafana
+     * Grafana user password
      */
     public String password;
 
     /**
-     * Директория с описанием дашбордов
+     * Directory with dashboards descriptions
      */
     public String dir = "grafana";
 
     /**
-     * Идентификатор папки для сохранения дашборда http://docs.grafana.org/http_api/folder/
+     * Folder id to save to http://docs.grafana.org/http_api/folder/
      */
     public String folderId = "0";
 
     /**
-     * Перезаписывать-ли содержимое дашборда
+     * Overwrite existing dashboards
      */
     public Boolean overwrite = true;
 }
