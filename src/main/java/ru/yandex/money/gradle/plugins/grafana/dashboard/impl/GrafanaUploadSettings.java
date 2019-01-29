@@ -21,35 +21,35 @@ public class GrafanaUploadSettings {
     }
 
     /**
-     * Url для подключения к Grafana
+     * Url to Grafana
      */
     String getUrl() {
         return url;
     }
 
     /**
-     * пользователь для подключения к Grafana
+     * Grafana username
      */
     String getUser() {
         return user;
     }
 
     /**
-     * пароль для подключения к Grafana
+     * Grafana user password
      */
     String getPassword() {
         return password;
     }
 
     /**
-     * Идентификатор папки для сохранения дашборда http://docs.grafana.org/http_api/folder/
+     * Folder id to save to http://docs.grafana.org/http_api/folder/
      */
     String getFolderId() {
         return folderId;
     }
 
     /**
-     * Перезаписывать-ли содержимое дашборда
+     * Overwrite existing dashboards
      */
     boolean isOverwrite() {
         return overwrite;

@@ -20,7 +20,7 @@ public interface DashboardContentCreator {
     boolean isSupported(@Nonnull File file);
 
     /**
-     * Create dashboard content fro specified file
+     * Create dashboard content from specified file
      *
      * @param file File
      * @return Dashboard content

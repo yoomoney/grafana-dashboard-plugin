@@ -38,7 +38,7 @@ These methods of creating and maintaining dashboards allow us:
 
 ```groovy
 plugins {
-    id 'com.yandex.money.tech.grafana-dashboard-plugin' version '2.0.2'
+    id 'com.yandex.money.tech.grafana-dashboard-plugin' version '2.0.5'
 }
 
 grafana {

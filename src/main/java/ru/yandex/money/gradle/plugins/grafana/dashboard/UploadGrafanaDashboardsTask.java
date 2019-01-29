@@ -20,7 +20,7 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
     private GrafanaDashboardExtension grafanaDashboardExtension;
 
     /**
-     * Основное действие
+     * Main action
      */
     @TaskAction
     void uploadGrafanaDashboards() {

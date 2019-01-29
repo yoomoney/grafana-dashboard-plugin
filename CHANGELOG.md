@@ -1,5 +1,9 @@
 # grafana-dashboard-plugin
 
+## [2.0.5]() (29-01-2019)
+
+Translate README, CHANGELOG and comments to english
+
 ## [2.0.4]() (10-01-2019)
 
 Downgrade kotlin version (1.2.71 -> 1.2.61)

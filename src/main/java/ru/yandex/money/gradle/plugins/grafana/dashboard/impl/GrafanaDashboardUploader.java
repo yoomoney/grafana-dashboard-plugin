@@ -32,9 +32,9 @@ public class GrafanaDashboardUploader {
     }
 
     /**
-     * Загрузить все dashboard из заданной директории в grafana
+     * Upload all dashboards from specified folder into grafana
      *
-     * @param targetDir директория для поиска дашбордов
+     * @param targetDir folder to search dashboards for
      */
     public void uploadDashboards(File targetDir) {
         log.lifecycle("Finding grafana dashboards to upload");
