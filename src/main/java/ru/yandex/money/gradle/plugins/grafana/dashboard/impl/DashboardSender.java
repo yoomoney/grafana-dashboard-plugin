@@ -21,17 +21,17 @@ import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 /**
- * Класс для обновления/вставки dashboard
+ * Dashboards update/insert code
  */
 class DashboardSender {
     private final CloseableHttpClient client;
     private final GrafanaUploadSettings grafanaUploadSettings;
 
     /**
-     * Конструктор
+     * Constructor
      *
-     * @param client                    http клиент для внешних вызовов
-     * @param grafanaUploadSettings настройки подключения к Grafana
+     * @param client                Http client for api calls
+     * @param grafanaUploadSettings Grafana connection settings
      */
     DashboardSender(CloseableHttpClient client, GrafanaUploadSettings grafanaUploadSettings) {
         this.client = client;
@@ -39,10 +39,10 @@ class DashboardSender {
     }
 
     /**
-     * Отсылка данных нового dashboard в Grafana
+     * Upload dashboards content to Grafana
      *
-     * @param dashboardContent содержимое dashboard
-     * @throws IOException в случае IO проблем
+     * @param dashboardContent dashboard content
+     * @throws IOException in case of errors with IO
      */
     void sendContentToGrafana(String dashboardContent) throws IOException {
         HttpPost request = new HttpPost(grafanaUploadSettings.getUrl() + "/api/dashboards/db");
@@ -65,11 +65,11 @@ class DashboardSender {
     }
 
     /**
-     * Получение ответа в виде строки
+     * Get http response as a string
      *
-     * @param response http ответ
-     * @return строка с содержимым ответа
-     * @throws IOException в случае IO проблем
+     * @param response http response
+     * @return string with response content
+     * @throws IOException in case of errors with IO
      */
     private static String getHttpResponseBodyAsString(HttpResponse response) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), UTF_8))) {

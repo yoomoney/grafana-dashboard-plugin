@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 /**
- * Task для загрузки всех dashboard в Grafana
+ * Task for uploading all dashboards into Grafana
  */
 public class UploadGrafanaDashboardsTask extends DefaultTask {
 
@@ -20,7 +20,7 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
     private GrafanaDashboardExtension grafanaDashboardExtension;
 
     /**
-     * Основное действие
+     * Main action
      */
     @TaskAction
     void uploadGrafanaDashboards() {
