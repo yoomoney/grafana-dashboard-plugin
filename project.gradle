@@ -1,7 +1,8 @@
-System.setProperty("platformGradleProjectVersion", "2.+")
+System.setProperty("platformGradleProjectVersion", "4.+")
 System.setProperty("kotlinVersion", "1.2.61")
 
 repositories {
+    maven { url 'https://nexus.yamoney.ru/repository/gradle-plugins/' }
     maven { url 'https://nexus.yamoney.ru/content/repositories/thirdparty/' }
     maven { url 'https://nexus.yamoney.ru/content/repositories/central/' }
     maven { url 'https://nexus.yamoney.ru/content/repositories/releases/' }

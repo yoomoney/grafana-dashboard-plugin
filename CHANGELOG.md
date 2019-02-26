@@ -1,5 +1,7 @@
-# grafana-dashboard-plugin
-
+%% NEXT_VERSION_TYPE=MINOR
+%% NEXT_VERSION_DESCRIPTION_BEGIN
+* Переход на platformGradleProjectVersion 4 версии
+%% NEXT_VERSION_DESCRIPTION_END
 ## [2.0.5]() (29-01-2019)
 
 Translate README, CHANGELOG and comments to english
