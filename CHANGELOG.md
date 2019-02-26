@@ -1,6 +1,6 @@
 %% NEXT_VERSION_TYPE=MINOR
 %% NEXT_VERSION_DESCRIPTION_BEGIN
-* Переход на platformGradleProjectVersion 4 версии
+* Improve CHANGELOG.md next version description format
 %% NEXT_VERSION_DESCRIPTION_END
 ## [2.0.5]() (29-01-2019)
 
