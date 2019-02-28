@@ -78,8 +78,12 @@ class DashboardSender {
     }
 
     private String getAuthHeader() {
-        return "Basic " + Base64.getEncoder().encodeToString(
-                (grafanaUploadSettings.getUser() + ':' + grafanaUploadSettings.getPassword()).getBytes(UTF_8));
+        if(!grafanaUploadSettings.getApiKey()) {
+            return "Basic " + Base64.getEncoder().encodeToString(
+                    (grafanaUploadSettings.getUser() + ':' + grafanaUploadSettings.getPassword()).getBytes(UTF_8));
+        } else {
+            return "Bearer" + grafanaUploadSettings.getApiKey();
+        }
     }
 
 }
