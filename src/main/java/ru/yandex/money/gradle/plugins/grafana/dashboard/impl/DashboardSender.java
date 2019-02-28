@@ -82,7 +82,7 @@ class DashboardSender {
             return "Basic " + Base64.getEncoder().encodeToString(
                     (grafanaUploadSettings.getUser() + ':' + grafanaUploadSettings.getPassword()).getBytes(UTF_8));
         } else {
-            return "Bearer" + grafanaUploadSettings.getApiKey();
+            return "Bearer " + grafanaUploadSettings.getApiKey();
         }
     }
 
