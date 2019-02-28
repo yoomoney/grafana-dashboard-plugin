@@ -78,7 +78,7 @@ class DashboardSender {
     }
 
     private String getAuthHeader() {
-        if(grafanaUploadSettings.getApiKey().isNullOrEmpty()) {
+        if(grafanaUploadSettings.getApiKey().isEmpty()) {
             return "Basic " + Base64.getEncoder().encodeToString(
                     (grafanaUploadSettings.getUser() + ':' + grafanaUploadSettings.getPassword()).getBytes(UTF_8));
         } else {
