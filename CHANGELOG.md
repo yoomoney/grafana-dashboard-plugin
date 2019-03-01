@@ -1,8 +1,8 @@
-%% NEXT_VERSION_TYPE=MINOR
-%% NEXT_VERSION_DESCRIPTION_BEGIN
-Added extension configuration property 'classpath' 
+## [2.2.0]() (01-03-2019)
+
+Added extension configuration property 'classpath'
 to customize classpath used during dashboard-scripts evaluation
-%% NEXT_VERSION_DESCRIPTION_END
+
 ## [2.1.0]() (26-02-2019)
 
 * Improve CHANGELOG.md next version description format
