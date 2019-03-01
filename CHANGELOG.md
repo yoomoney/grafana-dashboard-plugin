@@ -1,3 +1,6 @@
+%% NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+%% NEXT_VERSION_DESCRIPTION_BEGIN
+%% NEXT_VERSION_DESCRIPTION_END
 ## [2.2.0]() (01-03-2019)
 
 Added extension configuration property 'classpath'
