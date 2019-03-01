@@ -60,9 +60,11 @@ abstract class GrafanaDashboardPluginSpec {
         setupJettyServer()
         testProjectDir.create()
         buildFile = testProjectDir.newFile("build.gradle")
+        initializeTestProject()
         val grafanaPath = Paths.get(testProjectDir.root.absolutePath, "grafana")
         grafanaPath.toFile().mkdir()
         Paths.get(grafanaPath.toFile().absolutePath, "test-kotlin.kts").toFile().writeText("""
+        import ru.yandex.money.TestEnum
         println("Goodbye!!!")
         """.trimIndent())
         Paths.get(grafanaPath.toFile().absolutePath, "test-json.json").toFile().writeText("""
@@ -70,11 +72,13 @@ abstract class GrafanaDashboardPluginSpec {
         """.trimIndent())
         buildFile.writeText("""
                 plugins {
+                    id 'java'
                     id '$pluginId'
                 }
 
                 grafana {
                     url = 'http://localhost:${grafanaPort}'
+                    classpath += sourceSets.main.output
                 }
 
                 $repositories
@@ -82,10 +86,20 @@ abstract class GrafanaDashboardPluginSpec {
 
     }
 
+    private fun initializeTestProject() {
+        testProjectDir.newFolder("src", "main", "java", "ru", "yandex", "money")
+        val enumFile = testProjectDir.newFile("src/main/java/ru/yandex/money/TestEnum.java")
+        enumFile.writeText("""
+                package ru.yandex.money;
+
+                public enum TestEnum { }
+            """.trimIndent())
+    }
+
     fun `should process dashboards`() {
         val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments("uploadGrafanaDashboards", "--stacktrace", "--info")
+                .withArguments("build", "uploadGrafanaDashboards", "--stacktrace", "--info")
                 .withPluginClasspath()
                 .withDebug(true)
                 .build()

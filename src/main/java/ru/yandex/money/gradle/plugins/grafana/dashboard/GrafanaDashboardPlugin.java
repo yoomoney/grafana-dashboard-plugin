@@ -9,6 +9,7 @@ import org.gradle.api.plugins.JavaBasePlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -25,13 +26,19 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
      */
     @Override
     public void apply(Project target) {
-        GrafanaDashboardExtension grafanaDashboardExtension = target.getExtensions()
-                .create("grafana", GrafanaDashboardExtension.class);
+        GrafanaDashboardExtension grafanaDashboardExtension = getGrafanaDashboardExtensionWithDefaults(target);
         target.getPluginManager().apply(JavaBasePlugin.class);
         Configuration grafanaConfiguration = configureSourceSets(target, grafanaDashboardExtension);
         target.afterEvaluate(project -> {
             createUploadGrafanaDashboardTask(project, grafanaConfiguration, grafanaDashboardExtension);
         });
+    }
+
+    private static GrafanaDashboardExtension getGrafanaDashboardExtensionWithDefaults(Project target) {
+        GrafanaDashboardExtension grafanaDashboardExtension = target.getExtensions()
+                .create("grafana", GrafanaDashboardExtension.class);
+        grafanaDashboardExtension.classpath = target.files();
+        return grafanaDashboardExtension;
     }
 
     private Configuration configureSourceSets(Project project, GrafanaDashboardExtension grafanaDashboardExtension) {

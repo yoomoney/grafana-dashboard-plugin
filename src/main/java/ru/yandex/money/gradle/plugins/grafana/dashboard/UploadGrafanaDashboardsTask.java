@@ -25,7 +25,7 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
     @TaskAction
     void uploadGrafanaDashboards() {
         new GrafanaDashboardUploader(
-                Arrays.asList(new RawContentCreator(), new KotlinScriptContentCreator(grafanaConfiguration)),
+                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator()),
                 new GrafanaUploadSettings.Builder()
                         .withUrl(grafanaDashboardExtension.url)
                         .withUser(grafanaDashboardExtension.user)
@@ -36,6 +36,10 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
                 .uploadDashboards(Paths.get(getProject().getProjectDir().toString(), grafanaDashboardExtension.dir).toFile());
     }
 
+    private KotlinScriptContentCreator kotlinScriptContentCreator() {
+        return new KotlinScriptContentCreator(grafanaConfiguration, grafanaDashboardExtension.classpath);
+    }
+
     void setGrafanaConfiguration(Configuration configuration) {
         this.grafanaConfiguration = configuration;
     }
@@ -43,4 +47,5 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
     void setGrafanaDashboardExtension(GrafanaDashboardExtension grafanaDashboardExtension) {
         this.grafanaDashboardExtension = grafanaDashboardExtension;
     }
+
 }

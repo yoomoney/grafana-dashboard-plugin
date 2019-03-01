@@ -2,14 +2,18 @@ package ru.yandex.money.gradle.plugins.grafana.dashboard.impl;
 
 import kotlin.text.Charsets;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.file.FileCollection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngine;
 
+import javax.annotation.Nonnull;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Objects;
 
 /**
  * Create content based on output of kotlin script
@@ -20,10 +24,13 @@ import java.nio.file.Files;
 public class KotlinScriptContentCreator implements DashboardContentCreator {
     private final KotlinJsr223JvmLocalScriptEngine kotlinEngine;
 
-    public KotlinScriptContentCreator(Configuration grafanaConfiguration) {
+    public KotlinScriptContentCreator(@Nonnull Configuration grafanaConfiguration, @Nullable FileCollection grafanaClasspath) {
         kotlinEngine = (KotlinJsr223JvmLocalScriptEngine) new ScriptEngineManager()
                 .getEngineByExtension("kts");
         kotlinEngine.getTemplateClasspath().addAll(grafanaConfiguration.getFiles());
+        if (Objects.nonNull(grafanaClasspath)) {
+            kotlinEngine.getTemplateClasspath().addAll(grafanaClasspath.getFiles());
+        }
     }
 
     @Override

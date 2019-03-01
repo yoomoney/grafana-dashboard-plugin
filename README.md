@@ -59,6 +59,9 @@ grafana {
     
     // Overwrite existing dashboards, default is: true    
     overwrite = true
+    
+    // Additional classpath to use during dashboard scripts evaluation
+    classpath = null
 }
 ```
 

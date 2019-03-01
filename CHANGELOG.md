@@ -1,5 +1,7 @@
-%% NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+%% NEXT_VERSION_TYPE=MINOR
 %% NEXT_VERSION_DESCRIPTION_BEGIN
+Added extension configuration property 'classpath' 
+to customize classpath used during dashboard-scripts evaluation
 %% NEXT_VERSION_DESCRIPTION_END
 ## [2.1.0]() (26-02-2019)
 
