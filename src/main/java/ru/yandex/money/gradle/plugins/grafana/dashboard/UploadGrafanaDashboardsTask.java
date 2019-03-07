@@ -32,6 +32,7 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
                         .withPassword(grafanaDashboardExtension.password)
                         .withFolderId(grafanaDashboardExtension.folderId)
                         .withOverwrite(grafanaDashboardExtension.overwrite)
+                        .withApiKey(grafanaDashboardExtension.apiKey)
                         .build())
                 .uploadDashboards(Paths.get(getProject().getProjectDir().toString(), grafanaDashboardExtension.dir).toFile());
     }
