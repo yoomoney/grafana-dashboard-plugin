@@ -31,6 +31,11 @@ public class GrafanaDashboardExtension {
     public String folderId = "0";
 
     /**
+     * API key
+     */
+    public String apiKey;
+
+    /**
      * Overwrite existing dashboards
      */
     public Boolean overwrite = true;

@@ -7,6 +7,7 @@ public class GrafanaUploadSettings {
     private final String url;
     private final String user;
     private final String password;
+    private final String apiKey;
     private final String folderId;
     private final boolean overwrite;
 
@@ -16,6 +17,7 @@ public class GrafanaUploadSettings {
         user = builder.user;
         password = builder.password;
         folderId = builder.folderId;
+        apiKey = builder.apiKey;
         overwrite = builder.overwrite == null ? false : builder.overwrite;
 
     }
@@ -49,6 +51,11 @@ public class GrafanaUploadSettings {
     }
 
     /**
+     * Grafana api key
+     */
+    String getApiKey() { return apiKey; }
+
+    /**
      * Overwrite existing dashboards
      */
     boolean isOverwrite() {
@@ -68,6 +75,7 @@ public class GrafanaUploadSettings {
         private String user;
         private String password;
         private String folderId;
+        private String apiKey;
         private Boolean overwrite;
 
         public Builder withUrl(String val) {
@@ -92,6 +100,11 @@ public class GrafanaUploadSettings {
 
         public Builder withOverwrite(Boolean val) {
             overwrite = val;
+            return this;
+        }
+
+        public Builder withApiKey(String val) {
+            apiKey = val;
             return this;
         }
 
