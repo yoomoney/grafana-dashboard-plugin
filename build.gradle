@@ -1,13 +1,8 @@
 buildscript {
     apply from: 'project.gradle', to: buildscript
-    copy {
-        from zipTree(buildscript.configurations.classpath.files.find{ it.name.contains('gradle-project-plugin')})
-        into 'tmp'
-        include 'gradle-scripts/**'
-    }
 }
-apply from: 'tmp/gradle-scripts/_root.gradle'
-/////////////////////////////////////////////
+System.setProperty("kotlinVersion", "FIXME")
+apply plugin: 'yamoney-gradle-project-plugin'
 
 pluginId = 'yamoney-grafana-dashboard-plugin'
 gradlePlugin {
@@ -20,8 +15,6 @@ gradlePlugin {
 }
 apply from: 'dependencies.gradle'
 
-
 tasks.withType(Test) {
     exclude 'ru/yandex/money/gradle/plugins/grafana/public/**'
 }
-

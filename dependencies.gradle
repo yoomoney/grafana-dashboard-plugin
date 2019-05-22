@@ -1,12 +1,14 @@
+import kotlin.KotlinVersion
+
 dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5.3',
             'com.google.code.findbugs:annotations:3.0.1',
             "org.json:json:20180130",
-            "org.jetbrains.kotlin:kotlin-stdlib:${System.getProperty('kotlinVersion')}",
-            "org.jetbrains.kotlin:kotlin-reflect:${System.getProperty('kotlinVersion')}",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${System.getProperty('kotlinVersion')}",
-            "org.jetbrains.kotlin:kotlin-compiler-embeddable:${System.getProperty('kotlinVersion')}",
-            "org.jetbrains.kotlin:kotlin-script-util:${System.getProperty('kotlinVersion')}"
+            "org.jetbrains.kotlin:kotlin-stdlib:${KotlinVersion.CURRENT}",
+            "org.jetbrains.kotlin:kotlin-reflect:${KotlinVersion.CURRENT}",
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KotlinVersion.CURRENT}",
+            "org.jetbrains.kotlin:kotlin-compiler-embeddable:${KotlinVersion.CURRENT}",
+            "org.jetbrains.kotlin:kotlin-script-util:${KotlinVersion.CURRENT}"
 
     testCompile gradleTestKit(),
             'junit:junit:4.12',

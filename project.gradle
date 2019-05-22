@@ -1,5 +1,4 @@
-System.setProperty("platformGradleProjectVersion", "4.+")
-System.setProperty("kotlinVersion", "1.2.61")
+System.setProperty("platformGradleProjectVersion", "5.+")
 
 repositories {
     maven { url 'https://nexus.yamoney.ru/repository/gradle-plugins/' }
@@ -11,7 +10,5 @@ repositories {
     dependencies {
         classpath 'ru.yandex.money.gradle.plugins:yamoney-gradle-project-plugin:' +
                 System.getProperty("platformGradleProjectVersion")
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' +
-                System.getProperty('kotlinVersion')
     }
 }

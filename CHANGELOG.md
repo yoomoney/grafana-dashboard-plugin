@@ -1,13 +1,11 @@
-### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_TYPE=PATCH
 ### NEXT_VERSION_DESCRIPTION_BEGIN
+* Build with yamoney-gradle-project-plugin=5.+
 ### NEXT_VERSION_DESCRIPTION_END
 ## [2.2.1]() (14-05-2019)
 
-* Добавлен репозиторий с Gradle плагинами
+* Added gradle-plugins repository to private build
 
-%% NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
-%% NEXT_VERSION_DESCRIPTION_BEGIN
-%% NEXT_VERSION_DESCRIPTION_END
 ## [2.2.0]() (01-03-2019)
 
 Added extension configuration property 'classpath'
@@ -27,7 +25,7 @@ Downgrade kotlin version (1.2.71 -> 1.2.61)
 
 ## [2.0.3]() (30-11-2018)
 
-Add licence
+Add license
 
 ## [2.0.2]() (24-11-2018)
 
