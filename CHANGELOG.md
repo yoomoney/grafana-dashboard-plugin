@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=PATCH
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [2.2.2]() (22-05-2019)
+
 * Build with yamoney-gradle-project-plugin=5.+
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [2.2.1]() (14-05-2019)
 
 * Added gradle-plugins repository to private build
