@@ -1,4 +1,4 @@
-System.setProperty("platformGradleProjectVersion", "4.+")
+System.setProperty("platformGradleProjectVersion", "5.+")
 System.setProperty("kotlinVersion", "1.2.61")
 
 repositories {
