@@ -1,8 +1,8 @@
 buildscript {
     apply from: 'project.gradle', to: buildscript
 }
+System.setProperty("kotlinVersion", "FIXME")
 apply plugin: 'yamoney-gradle-project-plugin'
-/////////////////////////////////////////////
 
 pluginId = 'yamoney-grafana-dashboard-plugin'
 gradlePlugin {
@@ -14,7 +14,6 @@ gradlePlugin {
     }
 }
 apply from: 'dependencies.gradle'
-
 
 tasks.withType(Test) {
     exclude 'ru/yandex/money/gradle/plugins/grafana/public/**'

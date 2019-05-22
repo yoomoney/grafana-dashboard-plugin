@@ -58,7 +58,7 @@ class DashboardSender {
         try (CloseableHttpResponse response = client.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HTTP_OK) {
-                throw new IllegalStateException("Error send content to grafana: code="+ statusCode +
+                throw new IllegalStateException("Error send content to grafana: code=" + statusCode +
                         ", response=" + getHttpResponseBodyAsString(response));
             }
         }

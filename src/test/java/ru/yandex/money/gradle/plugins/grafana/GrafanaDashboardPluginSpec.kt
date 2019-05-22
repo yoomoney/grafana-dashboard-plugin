@@ -17,7 +17,6 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-
 /**
  * @author Oleg Kandaurov
  * @since 22.11.2018
@@ -26,7 +25,6 @@ abstract class GrafanaDashboardPluginSpec {
 
     protected abstract var pluginId: String
     protected abstract var repositories: String
-
 
     private val testProjectDir = TemporaryFolder()
     private lateinit var buildFile: File
@@ -52,7 +50,7 @@ abstract class GrafanaDashboardPluginSpec {
         server.setStopAtShutdown(true)
         val handler = HelloHandler()
         server.setHandler(handler)
-        server.start();
+        server.start()
     }
 
     @Before
@@ -77,13 +75,12 @@ abstract class GrafanaDashboardPluginSpec {
                 }
 
                 grafana {
-                    url = 'http://localhost:${grafanaPort}'
+                    url = 'http://localhost:$grafanaPort'
                     classpath += sourceSets.main.output
                 }
 
                 $repositories
         """.trimIndent())
-
     }
 
     private fun initializeTestProject() {
@@ -109,5 +106,4 @@ abstract class GrafanaDashboardPluginSpec {
         assertTrue(result.output.contains("Processing dashboard content: file=test-json.json"))
         assertTrue(result.output.contains("Processing dashboard content: file=test-kotlin.kts"))
     }
-
 }
