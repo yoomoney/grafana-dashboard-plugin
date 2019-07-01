@@ -43,4 +43,9 @@ public class GrafanaDashboardExtension {
      */
     public FileCollection classpath;
 
+    /**
+     * Library name with additional dashboard
+     */
+    public String additionalDashboardLibraryName;
+
 }

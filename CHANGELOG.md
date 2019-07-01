@@ -1,5 +1,9 @@
-### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_TYPE=MINOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
+1. Добавлена настройка additionalDashboardLibraryName, с помощью которой можно указать имя библиотеки с дополнительными
+дашбордами.
+2. sourceSet разделен на "grafanaCommon" и "grafanaCustom" для возможности объявлять разные версии dsl. 
+В grafanaCommon копируются дашборды из additionalDashboardLibraryName, в grafanaCustom - локальные из папки dir. 
 ### NEXT_VERSION_DESCRIPTION_END
 ## [2.2.2]() (22-05-2019)
 
