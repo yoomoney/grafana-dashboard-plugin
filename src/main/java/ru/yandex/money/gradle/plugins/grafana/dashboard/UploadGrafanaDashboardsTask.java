@@ -11,15 +11,15 @@ import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.RawContentCreator;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin.GRAFANA_COMMON_SOURCE_SET_NAME;
+import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin.DASHBOARDS_FROM_LIBRARY_DIR;
 
 /**
  * Task for uploading all dashboards into Grafana
  */
 public class UploadGrafanaDashboardsTask extends DefaultTask {
 
-    private Configuration grafanaCustomConfiguration;
-    private Configuration grafanaCommonConfiguration;
+    private Configuration grafanaFromDirConfiguration;
+    private Configuration grafanaFromLibraryConfiguration;
     private GrafanaDashboardExtension grafanaDashboardExtension;
 
     /**
@@ -36,28 +36,28 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
                 .build();
 
         new GrafanaDashboardUploader(
-                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaCustomConfiguration)),
+                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaFromDirConfiguration)),
                 grafanaUploadSettings)
                 .uploadDashboards(Paths.get(getProject().getProjectDir().toString(),
                         grafanaDashboardExtension.dir).toFile());
 
         new GrafanaDashboardUploader(
-                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaCommonConfiguration)),
+                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaFromLibraryConfiguration)),
                 grafanaUploadSettings)
                 .uploadDashboards(Paths.get(getProject().getBuildDir().toString(),
-                        GRAFANA_COMMON_SOURCE_SET_NAME).toFile());
+                        DASHBOARDS_FROM_LIBRARY_DIR).toFile());
     }
 
     private KotlinScriptContentCreator kotlinScriptContentCreator(Configuration grafanaConfiguration) {
         return new KotlinScriptContentCreator(grafanaConfiguration, grafanaDashboardExtension.classpath);
     }
 
-    void setGrafanaCommonConfiguration(Configuration commonConfiguration) {
-        this.grafanaCommonConfiguration = commonConfiguration;
+    void setGrafanaFromLibraryConfiguration(Configuration libraryConfiguration) {
+        this.grafanaFromLibraryConfiguration = libraryConfiguration;
     }
 
-    void setGrafanaCustomConfiguration(Configuration customConfiguration) {
-        this.grafanaCustomConfiguration = customConfiguration;
+    void setGrafanaFromDirConfiguration(Configuration dirConfiguration) {
+        this.grafanaFromDirConfiguration = dirConfiguration;
     }
 
     void setGrafanaDashboardExtension(GrafanaDashboardExtension grafanaDashboardExtension) {

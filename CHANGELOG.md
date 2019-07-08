@@ -1,9 +1,18 @@
-### NEXT_VERSION_TYPE=MINOR
+### NEXT_VERSION_TYPE=MAJOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
-1. Добавлена настройка additionalDashboardLibraryName, с помощью которой можно указать имя библиотеки с дополнительными
-дашбордами.
-2. sourceSet разделен на "grafanaCommon" и "grafanaCustom" для возможности объявлять разные версии dsl. 
-В grafanaCommon копируются дашборды из additionalDashboardLibraryName, в grafanaCustom - локальные из папки dir. 
+1. **breaking changes** `kotlin-stdlib` and `kotlin-reflect` are no longer added to the configuration. You should
+add the necessary libraries, example:
+```groovy
+dependencies {
+    grafanaFromDirCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.61',
+                          'org.jetbrains.kotlin:kotlin-reflect:1.2.61'
+    grafanaFromLibraryCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.71',
+                              'org.jetbrains.kotlin:kotlin-reflect:1.2.71'
+}
+```
+2. Added additionalDashboardLibraries property, where you can specify the name of the library which contains additional 
+dashboards.
+3. SourceSet is separated into grafanaFromLibrary and grafanaFromDir for the purpoce to announce different versions of dsl.
 ### NEXT_VERSION_DESCRIPTION_END
 ## [2.2.2]() (22-05-2019)
 

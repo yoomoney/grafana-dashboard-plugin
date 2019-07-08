@@ -1,7 +1,9 @@
 package ru.yandex.money.gradle.plugins.grafana.dashboard;
 
 import org.gradle.api.file.FileCollection;
-import org.gradle.api.internal.file.collections.FileCollectionAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Grafana plugin settings
@@ -46,6 +48,6 @@ public class GrafanaDashboardExtension {
     /**
      * Library name with additional dashboard
      */
-    public String additionalDashboardLibraryName;
+    public List<String> additionalDashboardLibraries = new ArrayList<>();
 
 }

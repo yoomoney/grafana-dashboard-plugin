@@ -29,7 +29,7 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
     }
 
     @Test
-    fun `private - should process common dashboards`() {
+    fun `private - should process library dashboards`() {
         buildFile.writeText("""
                 plugins {
                     id 'java'
@@ -39,14 +39,14 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
                 grafana {
                     url = 'http://localhost:$grafanaPort'
                     classpath += sourceSets.main.output
-                    additionalDashboardLibraryName = 'yamoney-grafana-dashboards'
+                    additionalDashboardLibraries = ['yamoney-grafana-dashboards']
                 }
 
                 $repositories
 
                 dependencies {
-                    grafanaCommonCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.6.4-feature-BACKEND-2762-SNAPSHOT'
-                    grafanaCustomCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.5.0'
+                    grafanaFromLibraryCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.6.1-feature-BACKEND-2762-test-SNAPSHOT'
+                    grafanaFromDirCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.5.0'
                 }
         """.trimIndent())
 

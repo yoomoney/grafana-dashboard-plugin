@@ -62,12 +62,19 @@ grafana {
     
     // Additional classpath to use during dashboard scripts evaluation
     classpath = null
+    
+    // Library name with additional dashboard
+    additionalDashboardLibraries = ['dashboards-library']
 }
 ```
 
 # How does it work?
 
-Plugin scans the folder, configured in settings, for files with dashboards description, in following formats:
+The plugin supports two work scenarios.
+1. Scans the folder, configured in settings (grafana.dir)
+2. Scans the libraries, configured in settings (grafana.additionalDashboardLibraries)
+
+Scans for files with dashboards description, in following formats:
 
 * JSON (file extension `.json`)
 * Kotlin Script (file extension `.kts`)
@@ -85,11 +92,15 @@ For this format, plugin executes files with kotlin code and expects that
 an output is a description of dashboards in JSON format.
 
 It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl)
-Just add a dependency to build script, in the `grafanaCompile` source set, as follows:
+
+SourceSet is separated into grafanaFromLibrary and grafanaFromDir for the purpoce to announce different versions of dsl.
+Just add a dependency to build script, in the `grafanaFromDirCompile` and `grafanaFromLibraryCompile` source set, 
+as follows:
 
 ```groovy
 dependencies {
-    grafanaCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.2.0'
+    grafanaFromDirCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.2.0'
+    grafanaFromLibraryCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.1.0'
 }
 ```
 
