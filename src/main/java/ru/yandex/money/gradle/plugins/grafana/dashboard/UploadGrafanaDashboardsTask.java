@@ -11,7 +11,7 @@ import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.RawContentCreator;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin.DASHBOARDS_FROM_LIBRARY_DIR;
+import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR;
 
 /**
  * Task for uploading all dashboards into Grafana
@@ -19,7 +19,7 @@ import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardP
 public class UploadGrafanaDashboardsTask extends DefaultTask {
 
     private Configuration grafanaFromDirConfiguration;
-    private Configuration grafanaFromLibraryConfiguration;
+    private Configuration grafanaFromArtifactConfiguration;
     private GrafanaDashboardExtension grafanaDashboardExtension;
 
     /**
@@ -42,18 +42,18 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
                         grafanaDashboardExtension.dir).toFile());
 
         new GrafanaDashboardUploader(
-                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaFromLibraryConfiguration)),
+                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaFromArtifactConfiguration)),
                 grafanaUploadSettings)
                 .uploadDashboards(Paths.get(getProject().getBuildDir().toString(),
-                        DASHBOARDS_FROM_LIBRARY_DIR).toFile());
+                        DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
     }
 
     private KotlinScriptContentCreator kotlinScriptContentCreator(Configuration grafanaConfiguration) {
         return new KotlinScriptContentCreator(grafanaConfiguration, grafanaDashboardExtension.classpath);
     }
 
-    void setGrafanaFromLibraryConfiguration(Configuration libraryConfiguration) {
-        this.grafanaFromLibraryConfiguration = libraryConfiguration;
+    void setGrafanaFromArtifactConfiguration(Configuration artifactConfiguration) {
+        this.grafanaFromArtifactConfiguration = artifactConfiguration;
     }
 
     void setGrafanaFromDirConfiguration(Configuration dirConfiguration) {

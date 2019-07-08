@@ -2,9 +2,6 @@ package ru.yandex.money.gradle.plugins.grafana.dashboard;
 
 import org.gradle.api.file.FileCollection;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Grafana plugin settings
  */
@@ -44,10 +41,4 @@ public class GrafanaDashboardExtension {
      * Additional classpath to use during dashboard scripts evaluation
      */
     public FileCollection classpath;
-
-    /**
-     * Library name with additional dashboard
-     */
-    public List<String> additionalDashboardLibraries = new ArrayList<>();
-
 }

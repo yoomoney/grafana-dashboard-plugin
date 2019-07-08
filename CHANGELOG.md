@@ -1,18 +1,8 @@
 ### NEXT_VERSION_TYPE=MAJOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
-1. **breaking changes** `kotlin-stdlib` and `kotlin-reflect` are no longer added to the configuration. You should
-add the necessary libraries, example:
-```groovy
-dependencies {
-    grafanaFromDirCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.61',
-                          'org.jetbrains.kotlin:kotlin-reflect:1.2.61'
-    grafanaFromLibraryCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.71',
-                              'org.jetbrains.kotlin:kotlin-reflect:1.2.71'
-}
-```
-2. Added additionalDashboardLibraries property, where you can specify the name of the library which contains additional 
+1. Added grafanaDashboardsCompile sourceSet, where you can specify libraries which contains additional 
 dashboards.
-3. SourceSet is separated into grafanaFromLibrary and grafanaFromDir for the purpoce to announce different versions of dsl.
+2. SourceSet is separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
 ### NEXT_VERSION_DESCRIPTION_END
 ## [2.2.2]() (22-05-2019)
 

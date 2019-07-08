@@ -1,9 +1,12 @@
 package ru.yandex.money.gradle.plugins.grafana.dashboard;
 
+import kotlin.KotlinVersion;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.file.FileTree;
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency;
 import org.gradle.api.plugins.JavaBasePlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.Copy;
@@ -23,9 +26,10 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
     /**
      * Directory, where dashboards from libraries will be saved
      */
-    static final String DASHBOARDS_FROM_LIBRARY_DIR = "grafana";
-    private static final String GRAFANA_LIBRARY_SOURCE_SET_NAME = "grafanaFromLibrary";
+    static final String DASHBOARDS_FROM_ARTIFACT_DIR = "grafana";
+    private static final String GRAFANA_ARTIFACT_SOURCE_SET_NAME = "grafanaFromArtifact";
     private static final String GRAFANA_DIR_SOURCE_SET_NAME = "grafanaFromDir";
+    private static final String GRAFANA_DASHBOARDS_CONFIGURATION_NAME = "grafanaDashboards";
     private static final String UPLOAD_TASK_NAME = "uploadGrafanaDashboards";
 
     /**
@@ -39,12 +43,16 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
         GrafanaDashboardExtension grafanaDashboardExtension = getGrafanaDashboardExtensionWithDefaults(target);
 
         Configuration grafanaFromDirConfiguration = configureDirSourceSets(target, grafanaDashboardExtension);
-        Configuration grafanaFromLibraryConfiguration = configureLibrarySourceSets(target);
+        Configuration grafanaFromArtifactConfiguration = configureArtifactSourceSets(target);
+
+        Configuration grafanaDashboardsConfiguration = target.getConfigurations()
+                .maybeCreate(GRAFANA_DASHBOARDS_CONFIGURATION_NAME + "Compile");
 
         target.afterEvaluate(project -> {
             createUploadGrafanaDashboardTask(project,
-                    grafanaFromDirConfiguration, grafanaFromLibraryConfiguration, grafanaDashboardExtension);
-            createExtractGrafanaDashboardsTask(grafanaFromLibraryConfiguration, target, grafanaDashboardExtension);
+                    grafanaFromDirConfiguration, grafanaFromArtifactConfiguration, grafanaDashboardExtension);
+
+            createExtractGrafanaDashboardsTask(grafanaDashboardsConfiguration, target);
         });
     }
 
@@ -61,48 +69,53 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
         SourceSet grafanaSourceset = sourceSets.create(GRAFANA_DIR_SOURCE_SET_NAME);
         grafanaSourceset.getJava().srcDir(new File(grafanaDashboardExtension.dir));
 
-        return project.getConfigurations()
+        Configuration grafanaDirCompile = project.getConfigurations()
                 .maybeCreate(GRAFANA_DIR_SOURCE_SET_NAME + "Compile");
+
+        return addKotlinDependencies(grafanaDirCompile);
     }
 
-    private Configuration configureLibrarySourceSets(Project project) {
+    private Configuration configureArtifactSourceSets(Project project) {
         SourceSetContainer sourceSets = project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
-        SourceSet grafanaSourceset = sourceSets.create(GRAFANA_LIBRARY_SOURCE_SET_NAME);
+        SourceSet grafanaSourceset = sourceSets.create(GRAFANA_ARTIFACT_SOURCE_SET_NAME);
         grafanaSourceset.getJava()
-                .srcDir(Paths.get(project.getBuildDir().toString(), GRAFANA_LIBRARY_SOURCE_SET_NAME).toString());
+                .srcDir(Paths.get(project.getBuildDir().toString(), GRAFANA_ARTIFACT_SOURCE_SET_NAME).toString());
 
-        return project.getConfigurations()
-                .maybeCreate(GRAFANA_LIBRARY_SOURCE_SET_NAME + "Compile");
+        Configuration grafanaDirCompile = project.getConfigurations()
+                .maybeCreate(GRAFANA_ARTIFACT_SOURCE_SET_NAME + "Compile");
+
+        return addKotlinDependencies(grafanaDirCompile);
     }
 
-    private void createExtractGrafanaDashboardsTask(Configuration grafanaCompileConfiguration, Project project,
-                                                    GrafanaDashboardExtension grafanaDashboardExtension) {
-        if (grafanaDashboardExtension.additionalDashboardLibraries.isEmpty()) {
-            return;
-        }
+    private Configuration addKotlinDependencies(Configuration grafanaConfiguration) {
+        DependencySet grafanaCompileDependencies = grafanaConfiguration.getDependencies();
+        grafanaCompileDependencies.add(new DefaultExternalModuleDependency(
+                "org.jetbrains.kotlin", "kotlin-stdlib", KotlinVersion.CURRENT.toString()));
+        grafanaCompileDependencies.add(new DefaultExternalModuleDependency(
+                "org.jetbrains.kotlin", "kotlin-reflect", KotlinVersion.CURRENT.toString()));
+        return grafanaConfiguration;
+    }
 
+    private void createExtractGrafanaDashboardsTask(Configuration grafanaDashboardsConfiguration, Project project) {
         Copy task = project.getTasks().create("extractGrafanaDashboards", Copy.class);
-        List<FileTree> files = grafanaCompileConfiguration.getFiles().stream()
-                .filter(file -> grafanaDashboardExtension
-                        .additionalDashboardLibraries.stream()
-                        .anyMatch(library -> file.getName().contains(library)))
+        List<FileTree> files = grafanaDashboardsConfiguration.getFiles().stream()
                 .map(project::zipTree)
                 .collect(Collectors.toList());
         task.from(files);
 
-        task.into(Paths.get(project.getBuildDir().toString(), DASHBOARDS_FROM_LIBRARY_DIR).toString());
+        task.into(Paths.get(project.getBuildDir().toString(), DASHBOARDS_FROM_ARTIFACT_DIR).toString());
         project.getTasks().getByName(UPLOAD_TASK_NAME).dependsOn(task);
     }
 
     private static void createUploadGrafanaDashboardTask(
             Project target, Configuration grafanaFromDirConfiguration,
-            Configuration grafanaFromLibraryConfiguration, GrafanaDashboardExtension grafanaDashboardExtension) {
+            Configuration grafanaFromArtifactConfiguration, GrafanaDashboardExtension grafanaDashboardExtension) {
         UploadGrafanaDashboardsTask task = target.getTasks()
                 .create(UPLOAD_TASK_NAME, UploadGrafanaDashboardsTask.class);
         task.setGroup("other");
         task.setDescription("Upload Grafana dashboards");
         task.setGrafanaFromDirConfiguration(grafanaFromDirConfiguration);
-        task.setGrafanaFromLibraryConfiguration(grafanaFromLibraryConfiguration);
+        task.setGrafanaFromArtifactConfiguration(grafanaFromArtifactConfiguration);
         task.setGrafanaDashboardExtension(grafanaDashboardExtension);
     }
 

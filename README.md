@@ -62,9 +62,6 @@ grafana {
     
     // Additional classpath to use during dashboard scripts evaluation
     classpath = null
-    
-    // Library name with additional dashboard
-    additionalDashboardLibraries = ['dashboards-library']
 }
 ```
 
@@ -72,7 +69,7 @@ grafana {
 
 The plugin supports two work scenarios.
 1. Scans the folder, configured in settings (grafana.dir)
-2. Scans the libraries, configured in settings (grafana.additionalDashboardLibraries)
+2. Scans the artifacts, declare in grafanaDashboardsCompile configuration
 
 Scans for files with dashboards description, in following formats:
 
@@ -93,14 +90,14 @@ an output is a description of dashboards in JSON format.
 
 It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl)
 
-SourceSet is separated into grafanaFromLibrary and grafanaFromDir for the purpoce to announce different versions of dsl.
-Just add a dependency to build script, in the `grafanaFromDirCompile` and `grafanaFromLibraryCompile` source set, 
+SourceSet is separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
+Just add a dependency to build script, in the `grafanaFromDirCompile` and `grafanaFromArtifactCompile` source set, 
 as follows:
 
 ```groovy
 dependencies {
     grafanaFromDirCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.2.0'
-    grafanaFromLibraryCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.1.0'
+    grafanaFromArtifactCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.1.0'
 }
 ```
 

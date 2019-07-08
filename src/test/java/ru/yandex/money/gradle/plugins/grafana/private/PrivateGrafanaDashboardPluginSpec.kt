@@ -39,13 +39,13 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
                 grafana {
                     url = 'http://localhost:$grafanaPort'
                     classpath += sourceSets.main.output
-                    additionalDashboardLibraries = ['yamoney-grafana-dashboards']
                 }
 
                 $repositories
 
                 dependencies {
-                    grafanaFromLibraryCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.6.1-feature-BACKEND-2762-test-SNAPSHOT'
+                    grafanaDashboardsCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.6.1-feature-BACKEND-2762-test-SNAPSHOT'
+                    grafanaFromArtifactCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.6.1-feature-BACKEND-2762-test-SNAPSHOT'
                     grafanaFromDirCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.5.0'
                 }
         """.trimIndent())
