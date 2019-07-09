@@ -44,8 +44,8 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
                 $repositories
 
                 dependencies {
-                    grafanaDashboardsCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.6.1-feature-BACKEND-2762-test-SNAPSHOT'
-                    grafanaFromArtifactCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.6.1-feature-BACKEND-2762-test-SNAPSHOT'
+                    grafanaDashboardsCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.7.1'
+                    grafanaFromArtifactCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.7.1'
                     grafanaFromDirCompile 'ru.yandex.money.common:yamoney-grafana-dashboards:1.5.0'
                 }
         """.trimIndent())
