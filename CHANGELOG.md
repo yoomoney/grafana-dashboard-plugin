@@ -1,3 +1,6 @@
+### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_DESCRIPTION_BEGIN
+### NEXT_VERSION_DESCRIPTION_END
 ## [3.0.0]() (10-07-2019)
 
 1. Added grafanaDashboardsCompile sourceSet, where you can specify libraries which contains additional
