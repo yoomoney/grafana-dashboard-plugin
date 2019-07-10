@@ -2,7 +2,7 @@
 ### NEXT_VERSION_DESCRIPTION_BEGIN
 1. Added grafanaDashboardsCompile sourceSet, where you can specify libraries which contains additional 
 dashboards.
-2. SourceSet is separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
+2. SourceSet was separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
 ### NEXT_VERSION_DESCRIPTION_END
 ## [2.2.2]() (22-05-2019)
 

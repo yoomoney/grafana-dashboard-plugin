@@ -90,7 +90,7 @@ an output is a description of dashboards in JSON format.
 
 It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl)
 
-SourceSet is separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
+SourceSet was separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
 Just add a dependency to build script, in the `grafanaFromDirCompile` and `grafanaFromArtifactCompile` source set, 
 as follows:
 
