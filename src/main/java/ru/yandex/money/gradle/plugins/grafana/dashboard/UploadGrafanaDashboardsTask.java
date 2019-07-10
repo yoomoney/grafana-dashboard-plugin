@@ -11,12 +11,15 @@ import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.RawContentCreator;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR;
+
 /**
  * Task for uploading all dashboards into Grafana
  */
 public class UploadGrafanaDashboardsTask extends DefaultTask {
 
-    private Configuration grafanaConfiguration;
+    private Configuration grafanaFromDirConfiguration;
+    private Configuration grafanaFromArtifactConfiguration;
     private GrafanaDashboardExtension grafanaDashboardExtension;
 
     /**
@@ -24,28 +27,40 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
      */
     @TaskAction
     void uploadGrafanaDashboards() {
+        GrafanaUploadSettings grafanaUploadSettings = new GrafanaUploadSettings.Builder()
+                .withUrl(grafanaDashboardExtension.url)
+                .withUser(grafanaDashboardExtension.user)
+                .withPassword(grafanaDashboardExtension.password)
+                .withFolderId(grafanaDashboardExtension.folderId)
+                .withOverwrite(grafanaDashboardExtension.overwrite)
+                .build();
+
         new GrafanaDashboardUploader(
-                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator()),
-                new GrafanaUploadSettings.Builder()
-                        .withUrl(grafanaDashboardExtension.url)
-                        .withUser(grafanaDashboardExtension.user)
-                        .withPassword(grafanaDashboardExtension.password)
-                        .withFolderId(grafanaDashboardExtension.folderId)
-                        .withOverwrite(grafanaDashboardExtension.overwrite)
-                        .build())
-                .uploadDashboards(Paths.get(getProject().getProjectDir().toString(), grafanaDashboardExtension.dir).toFile());
+                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaFromArtifactConfiguration)),
+                grafanaUploadSettings)
+                .uploadDashboards(Paths.get(getProject().getBuildDir().toString(),
+                        DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
+
+        new GrafanaDashboardUploader(
+                Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(grafanaFromDirConfiguration)),
+                grafanaUploadSettings)
+                .uploadDashboards(Paths.get(getProject().getProjectDir().toString(),
+                        grafanaDashboardExtension.dir).toFile());
     }
 
-    private KotlinScriptContentCreator kotlinScriptContentCreator() {
+    private KotlinScriptContentCreator kotlinScriptContentCreator(Configuration grafanaConfiguration) {
         return new KotlinScriptContentCreator(grafanaConfiguration, grafanaDashboardExtension.classpath);
     }
 
-    void setGrafanaConfiguration(Configuration configuration) {
-        this.grafanaConfiguration = configuration;
+    void setGrafanaFromArtifactConfiguration(Configuration artifactConfiguration) {
+        this.grafanaFromArtifactConfiguration = artifactConfiguration;
+    }
+
+    void setGrafanaFromDirConfiguration(Configuration dirConfiguration) {
+        this.grafanaFromDirConfiguration = dirConfiguration;
     }
 
     void setGrafanaDashboardExtension(GrafanaDashboardExtension grafanaDashboardExtension) {
         this.grafanaDashboardExtension = grafanaDashboardExtension;
     }
-
 }

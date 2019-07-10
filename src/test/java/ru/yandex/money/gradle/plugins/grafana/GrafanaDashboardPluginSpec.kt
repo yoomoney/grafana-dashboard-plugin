@@ -26,10 +26,10 @@ abstract class GrafanaDashboardPluginSpec {
     protected abstract var pluginId: String
     protected abstract var repositories: String
 
-    private val testProjectDir = TemporaryFolder()
-    private lateinit var buildFile: File
+    val testProjectDir = TemporaryFolder()
+    lateinit var buildFile: File
 
-    private val grafanaPort: Int by lazy {
+    val grafanaPort: Int by lazy {
         try {
             ServerSocket(0).use { socket -> socket.localPort }
         } catch (e: IOException) {

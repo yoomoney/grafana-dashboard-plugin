@@ -1,7 +1,6 @@
 package ru.yandex.money.gradle.plugins.grafana.dashboard;
 
 import org.gradle.api.file.FileCollection;
-import org.gradle.api.internal.file.collections.FileCollectionAdapter;
 
 /**
  * Grafana plugin settings
@@ -42,5 +41,4 @@ public class GrafanaDashboardExtension {
      * Additional classpath to use during dashboard scripts evaluation
      */
     public FileCollection classpath;
-
 }
