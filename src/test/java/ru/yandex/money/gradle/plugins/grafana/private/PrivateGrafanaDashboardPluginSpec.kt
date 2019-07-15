@@ -1,5 +1,6 @@
 package ru.yandex.money.gradle.plugins.grafana.private
 
+import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
@@ -59,5 +60,6 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
 
         Assert.assertEquals(TaskOutcome.SUCCESS, result.task(":uploadGrafanaDashboards")?.outcome)
         assertTrue(result.output.contains("Processing dashboard content: file=CommonInfo.kts"))
+        assertFalse(result.output.contains("Saving dashboard content to grafana: file=CommonInfo.kts"))
     }
 }

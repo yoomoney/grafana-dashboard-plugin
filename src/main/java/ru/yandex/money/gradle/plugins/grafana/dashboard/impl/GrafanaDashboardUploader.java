@@ -68,6 +68,7 @@ public class GrafanaDashboardUploader {
                         log.lifecycle("Processing dashboard content: file={}", file.getName());
                         return creator.createContent(file);
                     })
+                    .filter(content -> !content.isEmpty())
                     .ifPresent(dashboardContent -> {
                         log.info("Saving dashboard content to grafana: file={}, content =\n\n{}\n\n", file.getName(), dashboardContent);
                         try {
