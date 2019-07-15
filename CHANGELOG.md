@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=PATCH
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [3.0.1]() (15-07-2019)
+
 * Added empty dashboard filtering for upload.
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [3.0.0]() (10-07-2019)
 
 1. Added grafanaDashboardsCompile sourceSet, where you can specify libraries which contains additional
