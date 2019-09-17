@@ -19,4 +19,9 @@ class PublicGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
     fun `public - should process dashboards`() {
         `should process dashboards`()
     }
+
+    @Test
+    fun `public - should collect dashboards`() {
+        `should collect dashboards`()
+    }
 }

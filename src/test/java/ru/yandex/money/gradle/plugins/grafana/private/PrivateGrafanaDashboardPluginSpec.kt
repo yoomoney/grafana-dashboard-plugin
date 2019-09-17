@@ -30,6 +30,11 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
     }
 
     @Test
+    fun `private - should collect dashboards`() {
+        `should collect dashboards`()
+    }
+
+    @Test
     fun `private - should process library dashboards`() {
         buildFile.writeText("""
                 plugins {

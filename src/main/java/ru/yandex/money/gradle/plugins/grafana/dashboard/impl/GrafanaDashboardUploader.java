@@ -5,13 +5,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Grafana dashboard uploader
@@ -23,63 +18,35 @@ public class GrafanaDashboardUploader {
 
     private final Logger log = Logging.getLogger(GrafanaDashboardUploader.class);
 
-    private final List<DashboardContentCreator> dashboardContentCreators;
     private final GrafanaUploadSettings grafanaUploadSettings;
 
-    public GrafanaDashboardUploader(List<DashboardContentCreator> dashboardContentCreators,
-                                    GrafanaUploadSettings grafanaUploadSettings) {
-        this.dashboardContentCreators = new ArrayList<>(dashboardContentCreators);
+    public GrafanaDashboardUploader(GrafanaUploadSettings grafanaUploadSettings) {
         this.grafanaUploadSettings = grafanaUploadSettings;
     }
 
     /**
      * Upload all dashboards from specified folder into grafana
      *
-     * @param targetDir folder to search dashboards for
+     * @param dashboards dashboards for upload
      */
-    public void uploadDashboards(File targetDir) {
-        log.lifecycle("Finding grafana dashboards to upload");
-        if (!targetDir.isDirectory()) {
-            log.lifecycle("Grafana directory not found: dir={}", targetDir);
-            return;
-        }
-        List<File> dashboards;
-        try {
-            dashboards = Files.walk(targetDir.toPath())
-                    .filter(Files::isRegularFile)
-                    .map(Path::toFile)
-                    .filter(pathname -> dashboardContentCreators.stream()
-                            .anyMatch(creator -> creator.isSupported(pathname)))
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new RuntimeException("Can't get dashboard files", e);
-        }
-
+    public void uploadDashboards(List<GrafanaDashboard> dashboards) {
         if (dashboards.isEmpty()) {
-            log.lifecycle("No grafana dashboards: dir={}", targetDir.getAbsolutePath());
+            log.info("No grafana dashboards");
             return;
         }
 
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             DashboardSender sender = new DashboardSender(client, grafanaUploadSettings);
-            dashboards.forEach(file -> dashboardContentCreators.stream()
-                    .filter(creator -> creator.isSupported(file)).findFirst()
-                    .map(creator -> {
-                        log.lifecycle("Processing dashboard content: file={}", file.getName());
-                        return creator.createContent(file);
-                    })
-                    .filter(content -> !content.isEmpty())
-                    .ifPresent(dashboardContent -> {
-                        log.info("Saving dashboard content to grafana: file={}, content =\n\n{}\n\n", file.getName(), dashboardContent);
-                        try {
-                            sender.sendContentToGrafana(dashboardContent);
-                        } catch (IOException e) {
-                            throw new RuntimeException("Cannot send dashboard content to grafana", e);
-                        }
-                    }));
+            dashboards.forEach(dashboardContent -> {
+                log.info("Saving dashboard content to grafana: content=\n\n{}", dashboardContent.getContent());
+                try {
+                    sender.sendContentToGrafana(dashboardContent.getContent());
+                } catch (IOException e) {
+                    throw new RuntimeException("Cannot send dashboard content to grafana", e);
+                }
+            });
         } catch (IOException e) {
             throw new RuntimeException("Cannot close http client", e);
         }
     }
-
 }
