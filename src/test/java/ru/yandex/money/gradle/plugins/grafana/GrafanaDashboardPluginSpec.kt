@@ -106,4 +106,16 @@ abstract class GrafanaDashboardPluginSpec {
         assertTrue(result.output.contains("Processing dashboard content: file=test-json.json"))
         assertTrue(result.output.contains("Processing dashboard content: file=test-kotlin.kts"))
     }
+
+    fun `should collect dashboards`() {
+        val result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments("build", "collectGrafanaDashboards", "--stacktrace", "--info")
+                .withPluginClasspath()
+                .withDebug(true)
+                .build()
+
+        assertEquals(TaskOutcome.SUCCESS, result.task(":collectGrafanaDashboards")?.outcome)
+        assertTrue(result.output.contains("Collect dashboard: fileName=test-json.json json={\"a\": \"1\"}"))
+    }
 }

@@ -76,7 +76,8 @@ Scans for files with dashboards description, in following formats:
 * JSON (file extension `.json`)
 * Kotlin Script (file extension `.kts`)
 
-Then use task called `uploadGrafanaDashboards` to publish your dashboards
+Then use task called `uploadGrafanaDashboards` to publish your dashboards, or `collectGrafanaDashboards` for print 
+your dashboards to stdout.
 
 ## JSON
 

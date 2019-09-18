@@ -31,6 +31,7 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
     private static final String GRAFANA_DIR_SOURCE_SET_NAME = "grafanaFromDir";
     private static final String GRAFANA_DASHBOARDS_CONFIGURATION_NAME = "grafanaDashboards";
     private static final String UPLOAD_TASK_NAME = "uploadGrafanaDashboards";
+    private static final String COLLECT_TASK_NAME = "collectGrafanaDashboards";
 
     /**
      * Actions when applying GrafanaDashboardPlugin to a project
@@ -49,7 +50,12 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
                 .maybeCreate(GRAFANA_DASHBOARDS_CONFIGURATION_NAME + "Compile");
 
         target.afterEvaluate(project -> {
+            grafanaFromArtifactConfiguration.extendsFrom(grafanaDashboardsConfiguration);
+
             createUploadGrafanaDashboardTask(project,
+                    grafanaFromDirConfiguration, grafanaFromArtifactConfiguration, grafanaDashboardExtension);
+
+            createCollectGrafanaDashboardTask(project,
                     grafanaFromDirConfiguration, grafanaFromArtifactConfiguration, grafanaDashboardExtension);
 
             createExtractGrafanaDashboardsTask(grafanaDashboardsConfiguration, target);
@@ -105,6 +111,7 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
 
         task.into(Paths.get(project.getBuildDir().toString(), DASHBOARDS_FROM_ARTIFACT_DIR).toString());
         project.getTasks().getByName(UPLOAD_TASK_NAME).dependsOn(task);
+        project.getTasks().getByName(COLLECT_TASK_NAME).dependsOn(task);
     }
 
     private static void createUploadGrafanaDashboardTask(
@@ -119,4 +126,16 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
         task.setGrafanaDashboardExtension(grafanaDashboardExtension);
     }
 
+    private static void createCollectGrafanaDashboardTask(
+            Project target, Configuration grafanaFromDirConfiguration,
+            Configuration grafanaFromArtifactConfiguration, GrafanaDashboardExtension grafanaDashboardExtension) {
+
+        CollectGrafanaDashboardsTask task = target.getTasks()
+                .create(COLLECT_TASK_NAME, CollectGrafanaDashboardsTask.class);
+        task.setGroup("other");
+        task.setDescription("Collect grafana dashboards");
+        task.setGrafanaFromDirConfiguration(grafanaFromDirConfiguration);
+        task.setGrafanaFromArtifactConfiguration(grafanaFromArtifactConfiguration);
+        task.setGrafanaDashboardExtension(grafanaDashboardExtension);
+    }
 }

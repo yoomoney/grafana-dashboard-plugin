@@ -1,5 +1,6 @@
-### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_TYPE=MINOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
+* Added task `collectGrafanaDashboards` that collects generated dashboards and prints them to stdout.
 ### NEXT_VERSION_DESCRIPTION_END
 ## [3.0.1]() (15-07-2019)
 

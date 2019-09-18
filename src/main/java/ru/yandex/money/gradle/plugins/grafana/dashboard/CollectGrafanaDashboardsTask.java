@@ -2,11 +2,12 @@ package ru.yandex.money.gradle.plugins.grafana.dashboard;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.TaskAction;
+import org.json.JSONObject;
 import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaDashboard;
 import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaDashboardCollector;
-import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaDashboardUploader;
-import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaUploadSettings;
 import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.KotlinScriptContentCreator;
 import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.RawContentCreator;
 
@@ -18,9 +19,11 @@ import java.util.List;
 import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR;
 
 /**
- * Task for uploading all dashboards into Grafana
+ * Task for collect and print all dashboards
  */
-public class UploadGrafanaDashboardsTask extends DefaultTask {
+public class CollectGrafanaDashboardsTask extends DefaultTask {
+
+    private final Logger log = Logging.getLogger(CollectGrafanaDashboardsTask.class);
 
     private Configuration grafanaFromDirConfiguration;
     private Configuration grafanaFromArtifactConfiguration;
@@ -30,29 +33,27 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
      * Main action
      */
     @TaskAction
-    void uploadGrafanaDashboards() {
-        GrafanaUploadSettings grafanaUploadSettings = new GrafanaUploadSettings.Builder()
-                .withUrl(grafanaDashboardExtension.url)
-                .withUser(grafanaDashboardExtension.user)
-                .withPassword(grafanaDashboardExtension.password)
-                .withFolderId(grafanaDashboardExtension.folderId)
-                .withOverwrite(grafanaDashboardExtension.overwrite)
-                .build();
+    void collectGrafanaDashboards() {
 
-        GrafanaDashboardUploader grafanaUploader = new GrafanaDashboardUploader(grafanaUploadSettings);
-
-        List<GrafanaDashboard> dashboardsContent = getDashboardsContent(grafanaFromArtifactConfiguration,
+        List<GrafanaDashboard> dashboardsContentFromArtifact = getDashboardsContent(grafanaFromArtifactConfiguration,
                 Paths.get(getProject().getBuildDir().toString(), DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
-        grafanaUploader.uploadDashboards(dashboardsContent);
+        printDashboards(dashboardsContentFromArtifact);
 
         List<GrafanaDashboard> dashboardsContentFromDir = getDashboardsContent(grafanaFromDirConfiguration,
                 Paths.get(getProject().getProjectDir().toString(), grafanaDashboardExtension.dir).toFile());
-        grafanaUploader.uploadDashboards(dashboardsContentFromDir);
+        printDashboards(dashboardsContentFromDir);
     }
 
     private List<GrafanaDashboard> getDashboardsContent(Configuration configuration, File targetDir) {
         return new GrafanaDashboardCollector(Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(configuration)))
                 .collectDashboards(targetDir);
+    }
+
+    private void printDashboards(List<GrafanaDashboard> dashboardsContent) {
+        dashboardsContent
+                .forEach(dashboard -> log.lifecycle("Collect dashboard: fileName={} json={}",
+                        dashboard.getFileName(), new JSONObject(dashboard.getContent()).toString(4)));
+
     }
 
     private KotlinScriptContentCreator kotlinScriptContentCreator(Configuration grafanaConfiguration) {
