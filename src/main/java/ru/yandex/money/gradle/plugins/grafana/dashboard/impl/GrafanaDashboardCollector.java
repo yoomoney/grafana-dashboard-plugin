@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class GrafanaDashboardCollector {
 
-    private final Logger log = Logging.getLogger(GrafanaDashboardUploader.class);
+    private final Logger log = Logging.getLogger(GrafanaDashboardCollector.class);
 
     private final Collection<DashboardContentCreator> dashboardContentCreators;
 
