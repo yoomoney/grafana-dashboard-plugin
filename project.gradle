@@ -1,9 +1,10 @@
-System.setProperty("platformGradleProjectVersion", "5.+")
+System.setProperty("platformGradleProjectVersion", "5.10.1-feature-CHALLENGE-187-SNAPSHOT")
 
 repositories {
     maven { url 'https://nexus.yamoney.ru/repository/gradle-plugins/' }
     maven { url 'https://nexus.yamoney.ru/repository/thirdparty/' }
     maven { url 'https://nexus.yamoney.ru/repository/central/' }
+    maven { url 'https://nexus.yamoney.ru/repository/snapshots/' }
     maven { url 'https://nexus.yamoney.ru/repository/releases/' }
     maven { url 'https://nexus.yamoney.ru/repository/jcenter.bintray.com/' }
 
