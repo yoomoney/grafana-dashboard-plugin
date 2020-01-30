@@ -1,8 +1,8 @@
-### NEXT_VERSION_TYPE=MAJOR
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [4.0.0]() (30-01-2020)
+
 * Update gradle version `4.10.2` -> `6.0.1`
 * Update versions of dependencies
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [3.1.0]() (18-09-2019)
 
 * Added task `collectGrafanaDashboards` that collects generated dashboards and prints them to stdout.
