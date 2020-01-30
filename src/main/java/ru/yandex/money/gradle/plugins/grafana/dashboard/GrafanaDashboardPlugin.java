@@ -42,7 +42,6 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
     public void apply(Project target) {
         target.getPluginManager().apply(JavaBasePlugin.class);
         GrafanaDashboardExtension grafanaDashboardExtension = getGrafanaDashboardExtensionWithDefaults(target);
-
         Configuration grafanaFromDirConfiguration = configureDirSourceSets(target, grafanaDashboardExtension);
         Configuration grafanaFromArtifactConfiguration = configureArtifactSourceSets(target);
 
@@ -99,6 +98,8 @@ public class GrafanaDashboardPlugin implements Plugin<Project> {
                 "org.jetbrains.kotlin", "kotlin-stdlib", KotlinVersion.CURRENT.toString()));
         grafanaCompileDependencies.add(new DefaultExternalModuleDependency(
                 "org.jetbrains.kotlin", "kotlin-reflect", KotlinVersion.CURRENT.toString()));
+        grafanaCompileDependencies.add(new DefaultExternalModuleDependency(
+                "org.jetbrains.kotlin", "kotlin-scripting-compiler-embeddable", KotlinVersion.CURRENT.toString()));
         return grafanaConfiguration;
     }
 
