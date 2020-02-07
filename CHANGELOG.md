@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=MINOR
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [4.1.0]() (07-02-2020)
+
 * Build on Java11
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [4.0.0]() (30-01-2020)
 
 * Update gradle version `4.10.2` -> `6.0.1`
