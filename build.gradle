@@ -18,3 +18,7 @@ apply from: 'dependencies.gradle'
 tasks.withType(Test) {
     exclude 'ru/yandex/money/gradle/plugins/grafana/public/**'
 }
+
+releaseSettings {
+    addPullRequestLinkToChangelog = false
+}
