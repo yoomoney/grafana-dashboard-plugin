@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=MINOR
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [4.2.0]() (03-07-2020)
+
 * Up gradle version: 6.0.1 -> 6.4.1.
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [4.1.1]() (27-02-2020)
 
 * Don't add bibucket pull request link into changelog.md on release
