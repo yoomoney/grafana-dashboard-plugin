@@ -12,7 +12,7 @@ install:
 - true
 
 before_script:
-- git config --global user.email "SvcReleaserBackend@yamoney.ru"
+- git config --global user.email "SvcReleaserBackend@yoomoney.ru"
 - git config --global user.name "YamoneyRobot"
 
 script:
