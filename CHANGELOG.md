@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=PATCH
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [4.2.1]() (23-11-2020)
+
 * Замена доменов email @yamoney.ru -> @yoomoney.ru
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [4.2.0]() (03-07-2020)
 
 * Up gradle version: 6.0.1 -> 6.4.1.
