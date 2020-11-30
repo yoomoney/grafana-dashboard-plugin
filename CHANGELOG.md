@@ -2,6 +2,10 @@
 ### NEXT_VERSION_DESCRIPTION_BEGIN
 * Обновлена версия kotlin 1.3.71 -> 1.3.50
 ### NEXT_VERSION_DESCRIPTION_END
+## [4.2.1]() (23-11-2020)
+
+* Замена доменов email @yamoney.ru -> @yoomoney.ru
+
 ## [4.2.0]() (03-07-2020)
 
 * Up gradle version: 6.0.1 -> 6.4.1.
