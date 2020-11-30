@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=PATCH
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [4.2.2]() (30-11-2020)
+
 * Обновлена версия kotlin 1.3.71 -> 1.3.50
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [4.2.1]() (23-11-2020)
 
 * Замена доменов email @yamoney.ru -> @yoomoney.ru
