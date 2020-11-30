@@ -1,10 +1,8 @@
-[![Build Status](https://travis-ci.org/yandex-money-tech/grafana-dashboard-plugin.svg?branch=master)](https://travis-ci.org/yandex-money-tech/grafana-dashboard-plugin)
-[![Build status](https://ci.appveyor.com/api/projects/status/pljxjuc9gjdqprt8?svg=true)](https://ci.appveyor.com/project/f0y/grafana-dashboard-plugin)
-[![codecov](https://codecov.io/gh/yandex-money-tech/grafana-dashboard-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/yandex-money-tech/grafana-dashboard-plugin)
-[![codebeat badge](https://codebeat.co/badges/c91a7632-c469-4cfd-be62-6a1840dc347b)](https://codebeat.co/projects/github-com-yandex-money-tech-grafana-dashboard-plugin-master)
+[![Build Status](https://travis-ci.org/yoomoney-tech/grafana-dashboard-plugin.svg?branch=master)](https://travis-ci.org/yoomoney-tech/grafana-dashboard-plugin)
+[![codecov](https://codecov.io/gh/yoomoney-tech/grafana-dashboard-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/yoomoney-tech/grafana-dashboard-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Javadoc](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://yandex-money-tech.github.io/grafana-dashboard-plugin/)
-[![Download](https://api.bintray.com/packages/yandex-money-tech/maven/grafana-dashboard-plugin/images/download.svg)](https://bintray.com/yandex-money-tech/maven/grafana-dashboard-plugin/_latestVersion)
+[![Javadoc](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://yoomoney-tech.github.io/grafana-dashboard-plugin/)
+[![Download](https://api.bintray.com/packages/yoomoney-tech/maven/grafana-dashboard-plugin/images/download.svg)](https://bintray.com/yoomoney-tech/maven/grafana-dashboard-plugin/_latestVersion)
 
 # Grafana Dashboard Plugin
 
@@ -14,7 +12,7 @@ Plugin for automatic dashboards creation in [Grafana](https://grafana.com)
 
 The primary goal of this project is to ease support and maintenance of dashboards in grafana. 
 
-We, a team at Yandex.Money, have many dashboards for our projects, and it's often hard to answer these questions:
+We, a team at YooMoney, have many dashboards for our projects, and it's often hard to answer these questions:
 
 * Who created the dashboard?
 * What it's purpose?
@@ -25,7 +23,7 @@ So, to come up to the solution to these answers, we do as following:
 
 * Store dashboards in vcs with application code
 * Have CI jobs for updating dashboards contents
-* Use [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl) for declaring dashboards
+* Use [Grafana Dashboard Dsl](https://github.com/yoomoney-tech/grafana-dashboard-dsl) for declaring dashboards
 
 These methods of creating and maintaining dashboards allow us:
 
@@ -38,12 +36,12 @@ These methods of creating and maintaining dashboards allow us:
 
 ```groovy
 plugins {
-    id 'com.yandex.money.tech.grafana-dashboard-plugin' version '2.0.5'
+    id 'ru.yoomoney.tech.grafana-dashboard-plugin' version '2.0.5'
 }
 
 grafana {
     // Required, URL to Grafana
-    url = 'https://grafana.yamoney.ru'
+    url = 'https://grafana.yooteam.ru'
     
     // Required, Grafana username
     user = 'testUser'
@@ -89,7 +87,7 @@ You can check up description in Grafana -> Dashboard -> Settings -> JSON Model.
 For this format, plugin executes files with kotlin code and expects that
 an output is a description of dashboards in JSON format.
 
-It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yandex-money-tech/grafana-dashboard-dsl)
+It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yoomoney-tech/grafana-dashboard-dsl)
 
 SourceSet was separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
 Just add a dependency to build script, in the `grafanaFromDirCompile` and `grafanaFromArtifactCompile` source set, 
@@ -97,8 +95,8 @@ as follows:
 
 ```groovy
 dependencies {
-    grafanaFromDirCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.2.0'
-    grafanaFromArtifactCompile 'com.yandex.money.tech:grafana-dashboard-dsl:1.1.0'
+    grafanaFromDirCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.2.0'
+    grafanaFromArtifactCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.1.0'
 }
 ```
 
@@ -107,21 +105,3 @@ dependencies {
 Just fork the repo and send us a pull request.
 
 Make sure your branch builds without any warnings/issues.
-
-# How to build?
-
-See configuration for Travis (`.travis.yml`) or AppVeyor (`appveyor.yml`).
-There are two gradle projects in this repository:
-
-* Files `build.gradle`, `gradlew`, `gradle/wrapper` is for internal use in Yandex.Money infrastructure
-* Files `build-public.gradle`, `gradlew-public`, `gradle-public/wrapper` are for public use
-
-# Importing into IntelliJ IDEA
-
-Unfortunately, at this moment, intellij does not support this build configuration,
-so you have to change some files before importing:
-
-* Move `gradle-public/wrapper/gradle-wrapper.properties` into `gradle/wrapper/gradle-wrapper.properties`
-* Move `build-public.gradle` into `build.gradle`
-
-Vote for this issue [IDEA-199116](https://youtrack.jetbrains.net/issue/IDEA-199116), to make intellij support these types of configuration.

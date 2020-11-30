@@ -1,4 +1,4 @@
-package ru.yandex.money.gradle.plugins.grafana
+package ru.yoomoney.tech.plugins.grafana
 
 import org.eclipse.jetty.server.Request
 import org.eclipse.jetty.server.Server
@@ -62,7 +62,7 @@ abstract class GrafanaDashboardPluginSpec {
         val grafanaPath = Paths.get(testProjectDir.root.absolutePath, "grafana")
         grafanaPath.toFile().mkdir()
         Paths.get(grafanaPath.toFile().absolutePath, "test-kotlin.kts").toFile().writeText("""
-        import ru.yandex.money.TestEnum
+        import ru.yoomoney.TestEnum
         println("Goodbye!!!")
         """.trimIndent())
         Paths.get(grafanaPath.toFile().absolutePath, "test-json.json").toFile().writeText("""
@@ -84,10 +84,10 @@ abstract class GrafanaDashboardPluginSpec {
     }
 
     private fun initializeTestProject() {
-        testProjectDir.newFolder("src", "main", "java", "ru", "yandex", "money")
-        val enumFile = testProjectDir.newFile("src/main/java/ru/yandex/money/TestEnum.java")
+        testProjectDir.newFolder("src", "main", "java", "ru", "yoomoney")
+        val enumFile = testProjectDir.newFile("src/main/java/ru/yoomoney/TestEnum.java")
         enumFile.writeText("""
-                package ru.yandex.money;
+                package ru.yoomoney;
 
                 public enum TestEnum { }
             """.trimIndent())

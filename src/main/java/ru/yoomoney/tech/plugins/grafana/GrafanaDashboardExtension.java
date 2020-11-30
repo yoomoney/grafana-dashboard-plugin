@@ -1,4 +1,4 @@
-package ru.yandex.money.gradle.plugins.grafana.dashboard;
+package ru.yoomoney.tech.plugins.grafana;
 
 import org.gradle.api.file.FileCollection;
 

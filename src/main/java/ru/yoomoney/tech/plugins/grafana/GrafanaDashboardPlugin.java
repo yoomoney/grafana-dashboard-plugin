@@ -1,4 +1,4 @@
-package ru.yandex.money.gradle.plugins.grafana.dashboard;
+package ru.yoomoney.tech.plugins.grafana;
 
 import kotlin.KotlinVersion;
 import org.gradle.api.Plugin;

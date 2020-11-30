@@ -1,4 +1,4 @@
-package ru.yandex.money.gradle.plugins.grafana.dashboard;
+package ru.yoomoney.tech.plugins.grafana;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.Configuration;
@@ -6,17 +6,15 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.TaskAction;
 import org.json.JSONObject;
-import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaDashboard;
-import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.GrafanaDashboardCollector;
-import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.KotlinScriptContentCreator;
-import ru.yandex.money.gradle.plugins.grafana.dashboard.impl.RawContentCreator;
+import ru.yoomoney.tech.plugins.grafana.impl.GrafanaDashboard;
+import ru.yoomoney.tech.plugins.grafana.impl.GrafanaDashboardCollector;
+import ru.yoomoney.tech.plugins.grafana.impl.KotlinScriptContentCreator;
+import ru.yoomoney.tech.plugins.grafana.impl.RawContentCreator;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-
-import static ru.yandex.money.gradle.plugins.grafana.dashboard.GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR;
 
 /**
  * Task for collect and print all dashboards
@@ -36,7 +34,7 @@ public class CollectGrafanaDashboardsTask extends DefaultTask {
     void collectGrafanaDashboards() {
 
         List<GrafanaDashboard> dashboardsContentFromArtifact = getDashboardsContent(grafanaFromArtifactConfiguration,
-                Paths.get(getProject().getBuildDir().toString(), DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
+                Paths.get(getProject().getBuildDir().toString(), GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
         printDashboards(dashboardsContentFromArtifact);
 
         List<GrafanaDashboard> dashboardsContentFromDir = getDashboardsContent(grafanaFromDirConfiguration,

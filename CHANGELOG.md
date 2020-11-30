@@ -34,7 +34,7 @@ dashboards.
 
 ## [2.2.2]() (22-05-2019)
 
-* Build with yamoney-gradle-project-plugin=5.+
+* Build with yoomoney-gradle-project-plugin=5.+
 
 ## [2.2.1]() (14-05-2019)
 

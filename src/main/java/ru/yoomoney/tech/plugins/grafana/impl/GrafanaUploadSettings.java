@@ -1,4 +1,4 @@
-package ru.yandex.money.gradle.plugins.grafana.dashboard.impl;
+package ru.yoomoney.tech.plugins.grafana.impl;
 
 /**
  * Grafana plugin settings

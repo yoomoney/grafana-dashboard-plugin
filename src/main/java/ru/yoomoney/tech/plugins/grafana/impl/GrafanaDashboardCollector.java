@@ -1,4 +1,4 @@
-package ru.yandex.money.gradle.plugins.grafana.dashboard.impl;
+package ru.yoomoney.tech.plugins.grafana.impl;
 
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
