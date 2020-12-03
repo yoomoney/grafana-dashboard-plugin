@@ -1,3 +1,6 @@
+### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_DESCRIPTION_BEGIN
+### NEXT_VERSION_DESCRIPTION_END
 ## [4.2.3]() (03-12-2020)
 
 В `dependencies.gradle` напрямую указана версия 1.3.50 для
