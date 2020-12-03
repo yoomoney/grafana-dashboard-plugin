@@ -7,9 +7,9 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-stdlib:${KotlinVersion.CURRENT}",
             "org.jetbrains.kotlin:kotlin-reflect:${KotlinVersion.CURRENT}",
             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KotlinVersion.CURRENT}",
-            "org.jetbrains.kotlin:kotlin-compiler-embeddable:${KotlinVersion.CURRENT}",
-            "org.jetbrains.kotlin:kotlin-script-util:${KotlinVersion.CURRENT}",
-            "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:${KotlinVersion.CURRENT}"
+            "org.jetbrains.kotlin:kotlin-compiler-embeddable:1.3.50",
+            "org.jetbrains.kotlin:kotlin-script-util:1.3.50",
+            "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:1.3.50"
 
     testCompile gradleTestKit(),
             'junit:junit:4.12',
