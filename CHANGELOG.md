@@ -1,10 +1,10 @@
-### NEXT_VERSION_TYPE=PATCH
-### NEXT_VERSION_DESCRIPTION_BEGIN
-В `dependencies.gradle` напрямую указана версия 1.3.50 для 
-* kotlin-compiler-embeddable 
+## [4.2.3]() (03-12-2020)
+
+В `dependencies.gradle` напрямую указана версия 1.3.50 для
+* kotlin-compiler-embeddable
 * kotlin-scripting-compiler-embeddable
 * kotlin-script-util
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [4.2.2]() (30-11-2020)
 
 * Обновлена версия kotlin 1.3.71 -> 1.3.50
