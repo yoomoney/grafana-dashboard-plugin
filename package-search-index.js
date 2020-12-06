@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"ru.yoomoney.tech.plugins.grafana"},{"l":"ru.yoomoney.tech.plugins.grafana.impl"}]
