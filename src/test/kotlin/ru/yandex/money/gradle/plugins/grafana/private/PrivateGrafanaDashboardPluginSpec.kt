@@ -58,7 +58,7 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
 
         val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments("build", "uploadGrafanaDashboards", "--stacktrace", "--info")
+                .withArguments("build", "collectGrafanaDashboards", "uploadGrafanaDashboards", "--stacktrace", "--info")
                 .withPluginClasspath()
                 .withDebug(true)
                 .build()
@@ -66,5 +66,7 @@ class PrivateGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
         Assert.assertEquals(TaskOutcome.SUCCESS, result.task(":uploadGrafanaDashboards")?.outcome)
         assertTrue(result.output.contains("Processing dashboard content: file=CommonInfo.kts"))
         assertFalse(result.output.contains("Saving dashboard content to grafana: file=CommonInfo.kts"))
+
+        Assert.assertEquals(TaskOutcome.SUCCESS, result.task(":collectGrafanaDashboards")?.outcome)
     }
 }

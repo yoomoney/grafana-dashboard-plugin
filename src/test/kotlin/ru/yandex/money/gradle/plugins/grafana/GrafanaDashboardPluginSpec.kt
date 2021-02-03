@@ -77,6 +77,7 @@ abstract class GrafanaDashboardPluginSpec {
                 grafana {
                     url = 'http://localhost:$grafanaPort'
                     classpath += sourceSets.main.output
+                    printCollectedDashboards = true
                 }
 
                 $repositories

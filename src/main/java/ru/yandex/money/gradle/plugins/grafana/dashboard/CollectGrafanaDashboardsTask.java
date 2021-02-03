@@ -34,6 +34,10 @@ public class CollectGrafanaDashboardsTask extends DefaultTask {
      */
     @TaskAction
     void collectGrafanaDashboards() {
+        log.lifecycle("Collect Grafana dashboards: printCollectedDashboards={}", grafanaDashboardExtension.printCollectedDashboards);
+        if (!grafanaDashboardExtension.printCollectedDashboards) {
+            return;
+        }
 
         List<GrafanaDashboard> dashboardsContentFromArtifact = getDashboardsContent(grafanaFromArtifactConfiguration,
                 Paths.get(getProject().getBuildDir().toString(), DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
