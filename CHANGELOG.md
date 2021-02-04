@@ -1,5 +1,6 @@
-### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_TYPE=MINOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
+* Print all collected dashboards to stdout is disabled by default. Use printCollectedDashboards to enable on purpose.
 ### NEXT_VERSION_DESCRIPTION_END
 ## [4.2.3]() (03-12-2020)
 
