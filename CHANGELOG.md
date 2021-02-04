@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=MINOR
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [4.3.0]() (04-02-2021)
+
 * Print all collected dashboards to stdout is disabled by default. Use printCollectedDashboards to enable on purpose.
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [4.2.3]() (03-12-2020)
 
 В `dependencies.gradle` напрямую указана версия 1.3.50 для
