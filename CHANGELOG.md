@@ -1,5 +1,8 @@
-### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_TYPE=MAJOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
+* ***breaking_changes*** Renamed package ru.yoomoney.tech.plugins -> ru.yoomoney.gradle.plugins
+* ***breaking_changes*** Renamed group of artifact ru.yoomoney.tech -> ru.yoomoney.gradle.plugins
+* Build on gradle-project-plugin
 ### NEXT_VERSION_DESCRIPTION_END
 ## [4.2.0]() (03-07-2020)
 

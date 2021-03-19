@@ -1,21 +1,21 @@
-package ru.yoomoney.tech.plugins.grafana;
+package ru.yoomoney.gradle.plugins.grafana;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.tasks.TaskAction;
-import ru.yoomoney.tech.plugins.grafana.impl.GrafanaDashboard;
-import ru.yoomoney.tech.plugins.grafana.impl.GrafanaDashboardCollector;
-import ru.yoomoney.tech.plugins.grafana.impl.GrafanaDashboardUploader;
-import ru.yoomoney.tech.plugins.grafana.impl.GrafanaUploadSettings;
-import ru.yoomoney.tech.plugins.grafana.impl.KotlinScriptContentCreator;
-import ru.yoomoney.tech.plugins.grafana.impl.RawContentCreator;
+import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboard;
+import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboardCollector;
+import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboardUploader;
+import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaUploadSettings;
+import ru.yoomoney.gradle.plugins.grafana.impl.KotlinScriptContentCreator;
+import ru.yoomoney.gradle.plugins.grafana.impl.RawContentCreator;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import static ru.yoomoney.tech.plugins.grafana.GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR;
+import static ru.yoomoney.gradle.plugins.grafana.GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR;
 
 /**
  * Task for uploading all dashboards into Grafana

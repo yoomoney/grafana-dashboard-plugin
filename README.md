@@ -1,8 +1,6 @@
-[![Build Status](https://travis-ci.org/yoomoney-tech/grafana-dashboard-plugin.svg?branch=master)](https://travis-ci.org/yoomoney-tech/grafana-dashboard-plugin)
-[![codecov](https://codecov.io/gh/yoomoney-tech/grafana-dashboard-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/yoomoney-tech/grafana-dashboard-plugin)
+[![Build Status](https://api.travis-ci.com/yoomoney-gradle-plugins/grafana-dashboard-plugin.svg?branch=master)](https://travis-ci.com/yoomoney-gradle-plugins/grafana-dashboard-plugin)
+[![codecov](https://codecov.io/gh/yoomoney-gradle-plugins/grafana-dashboard-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/yoomoney-gradle-plugins/grafana-dashboard-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Javadoc](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://yoomoney-tech.github.io/grafana-dashboard-plugin/)
-[![Download](https://api.bintray.com/packages/yoomoney-tech/maven/grafana-dashboard-plugin/images/download.svg)](https://bintray.com/yoomoney-tech/maven/grafana-dashboard-plugin/_latestVersion)
 
 # Grafana Dashboard Plugin
 
@@ -36,7 +34,7 @@ These methods of creating and maintaining dashboards allow us:
 
 ```groovy
 plugins {
-    id 'ru.yoomoney.tech.grafana-dashboard-plugin' version '2.0.5'
+    id 'ru.yoomoney.gradle.plugins..grafana-dashboard-plugin' version '2.0.5'
 }
 
 grafana {
@@ -95,8 +93,8 @@ as follows:
 
 ```groovy
 dependencies {
-    grafanaFromDirCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.2.0'
-    grafanaFromArtifactCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.1.0'
+    grafanaFromDirCompile 'ru.yoomoney.gradle,plugins:grafana-dashboard-dsl:1.2.0'
+    grafanaFromArtifactCompile 'ru.yoomoney.gradle,plugins:grafana-dashboard-dsl:1.1.0'
 }
 ```
 

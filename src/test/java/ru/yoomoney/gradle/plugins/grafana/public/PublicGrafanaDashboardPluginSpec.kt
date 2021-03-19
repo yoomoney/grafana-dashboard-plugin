@@ -1,7 +1,7 @@
-package ru.yoomoney.tech.plugins.grafana.public
+package ru.yoomoney.gradle.plugins.grafana.public
 
 import org.junit.Test
-import ru.yoomoney.tech.plugins.grafana.GrafanaDashboardPluginSpec
+import ru.yoomoney.gradle.plugins.grafana.GrafanaDashboardPluginSpec
 
 class PublicGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
     override var repositories: String
@@ -12,7 +12,7 @@ class PublicGrafanaDashboardPluginSpec : GrafanaDashboardPluginSpec() {
         """.trimIndent()
         set(_) {}
     override var pluginId: String
-        get() = "ru.yoomoney.tech.grafana-dashboard-plugin"
+        get() = "ru.yoomoney.gradle.plugins.grafana-dashboard-plugin"
         set(_) {}
 
     @Test
