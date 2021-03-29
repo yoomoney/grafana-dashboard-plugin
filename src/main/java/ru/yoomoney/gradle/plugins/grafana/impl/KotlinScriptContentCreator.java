@@ -1,4 +1,4 @@
-package ru.yoomoney.tech.plugins.grafana.impl;
+package ru.yoomoney.gradle.plugins.grafana.impl;
 
 import kotlin.text.Charsets;
 import org.gradle.api.artifacts.Configuration;

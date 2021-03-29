@@ -1,4 +1,4 @@
-package ru.yoomoney.tech.plugins.grafana;
+package ru.yoomoney.gradle.plugins.grafana;
 
 import org.gradle.api.file.FileCollection;
 

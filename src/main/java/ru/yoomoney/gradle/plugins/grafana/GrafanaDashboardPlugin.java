@@ -1,4 +1,4 @@
-package ru.yoomoney.tech.plugins.grafana;
+package ru.yoomoney.gradle.plugins.grafana;
 
 import kotlin.KotlinVersion;
 import org.gradle.api.Plugin;
