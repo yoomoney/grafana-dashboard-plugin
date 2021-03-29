@@ -60,6 +60,9 @@ grafana {
     
     // Additional classpath to use during dashboard scripts evaluation
     classpath = null
+   
+    //Print collected dashboards to stdout, default is: false
+    printCollectedDashboards = false
 }
 ```
 

@@ -41,4 +41,10 @@ public class GrafanaDashboardExtension {
      * Additional classpath to use during dashboard scripts evaluation
      */
     public FileCollection classpath;
+
+    /**
+     * Print collected dashboards to stdout
+     */
+    public Boolean printCollectedDashboards = false;
+
 }
