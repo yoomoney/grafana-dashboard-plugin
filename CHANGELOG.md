@@ -1,6 +1,28 @@
-### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_TYPE=MAJOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
+* ***breaking_changes*** Renamed package ru.yoomoney.tech.plugins -> ru.yoomoney.gradle.plugins
+* ***breaking_changes*** Renamed group of artifact ru.yoomoney.tech -> ru.yoomoney.gradle.plugins
+* Build on gradle-project-plugin
 ### NEXT_VERSION_DESCRIPTION_END
+## [4.3.0]() (04-02-2021)
+
+* Print all collected dashboards to stdout is disabled by default. Use printCollectedDashboards to enable on purpose.
+
+## [4.2.3]() (03-12-2020)
+
+В `dependencies.gradle` напрямую указана версия 1.3.50 для
+* kotlin-compiler-embeddable
+* kotlin-scripting-compiler-embeddable
+* kotlin-script-util
+
+## [4.2.2]() (30-11-2020)
+
+* Обновлена версия kotlin 1.3.71 -> 1.3.50
+
+## [4.2.1]() (23-11-2020)
+
+* Замена доменов email @yamoney.ru -> @yoomoney.ru
+
 ## [4.2.0]() (03-07-2020)
 
 * Up gradle version: 6.0.1 -> 6.4.1.

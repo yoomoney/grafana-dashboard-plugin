@@ -1,4 +1,4 @@
-package ru.yoomoney.tech.plugins.grafana;
+package ru.yoomoney.gradle.plugins.grafana;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.Configuration;
@@ -6,10 +6,10 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.TaskAction;
 import org.json.JSONObject;
-import ru.yoomoney.tech.plugins.grafana.impl.GrafanaDashboard;
-import ru.yoomoney.tech.plugins.grafana.impl.GrafanaDashboardCollector;
-import ru.yoomoney.tech.plugins.grafana.impl.KotlinScriptContentCreator;
-import ru.yoomoney.tech.plugins.grafana.impl.RawContentCreator;
+import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboard;
+import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboardCollector;
+import ru.yoomoney.gradle.plugins.grafana.impl.KotlinScriptContentCreator;
+import ru.yoomoney.gradle.plugins.grafana.impl.RawContentCreator;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -32,6 +32,10 @@ public class CollectGrafanaDashboardsTask extends DefaultTask {
      */
     @TaskAction
     void collectGrafanaDashboards() {
+        log.lifecycle("Collect Grafana dashboards: printCollectedDashboards={}", grafanaDashboardExtension.printCollectedDashboards);
+        if (!grafanaDashboardExtension.printCollectedDashboards) {
+            return;
+        }
 
         List<GrafanaDashboard> dashboardsContentFromArtifact = getDashboardsContent(grafanaFromArtifactConfiguration,
                 Paths.get(getProject().getBuildDir().toString(), GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR).toFile());

@@ -1,4 +1,4 @@
-package ru.yoomoney.tech.plugins.grafana;
+package ru.yoomoney.gradle.plugins.grafana;
 
 import org.gradle.api.file.FileCollection;
 
@@ -41,4 +41,10 @@ public class GrafanaDashboardExtension {
      * Additional classpath to use during dashboard scripts evaluation
      */
     public FileCollection classpath;
+
+    /**
+     * Print collected dashboards to stdout
+     */
+    public Boolean printCollectedDashboards = false;
+
 }

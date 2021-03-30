@@ -1,4 +1,4 @@
-package ru.yoomoney.tech.plugins.grafana
+package ru.yoomoney.gradle.plugins.grafana
 
 import org.eclipse.jetty.server.Request
 import org.eclipse.jetty.server.Server
@@ -9,6 +9,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Test
 import java.io.File
 import java.io.IOException
 import java.net.ServerSocket
@@ -21,10 +22,18 @@ import javax.servlet.http.HttpServletResponse
  * @author Oleg Kandaurov
  * @since 22.11.2018
  */
-abstract class GrafanaDashboardPluginSpec {
+class GrafanaDashboardPluginSpec {
 
-    protected abstract var pluginId: String
-    protected abstract var repositories: String
+    var pluginId: String
+        get() = "ru.yoomoney.gradle.plugins.grafana-dashboard-plugin"
+        set(_) {}
+    var repositories: String
+        get() = """
+            repositories {
+                jcenter()
+            }
+        """.trimIndent()
+        set(_) {}
 
     val testProjectDir = TemporaryFolder()
     lateinit var buildFile: File
@@ -77,6 +86,7 @@ abstract class GrafanaDashboardPluginSpec {
                 grafana {
                     url = 'http://localhost:$grafanaPort'
                     classpath += sourceSets.main.output
+                    printCollectedDashboards = true
                 }
 
                 $repositories
@@ -93,10 +103,11 @@ abstract class GrafanaDashboardPluginSpec {
             """.trimIndent())
     }
 
+    @Test
     fun `should process dashboards`() {
         val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments("build", "uploadGrafanaDashboards", "--stacktrace", "--info")
+                .withArguments("build", "collectGrafanaDashboards", "uploadGrafanaDashboards", "--stacktrace", "--info")
                 .withPluginClasspath()
                 .withDebug(true)
                 .build()
@@ -107,6 +118,7 @@ abstract class GrafanaDashboardPluginSpec {
         assertTrue(result.output.contains("Processing dashboard content: file=test-kotlin.kts"))
     }
 
+    @Test
     fun `should collect dashboards`() {
         val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
@@ -116,6 +128,8 @@ abstract class GrafanaDashboardPluginSpec {
                 .build()
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":collectGrafanaDashboards")?.outcome)
+
+        print(result.output)
         assertTrue(result.output.contains("Collect dashboard: fileName=test-json.json json={\"a\": \"1\"}"))
     }
 }
