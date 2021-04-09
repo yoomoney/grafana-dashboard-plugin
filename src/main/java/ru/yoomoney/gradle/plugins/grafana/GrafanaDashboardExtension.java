@@ -13,13 +13,22 @@ public class GrafanaDashboardExtension {
     public String url;
 
     /**
-     * Grafana username
+     * Grafana authentication api token
      */
+    public String apiToken;
+
+    /**
+     * Grafana username
+     * Use {@link #apiToken} instead
+     */
+    @Deprecated
     public String user;
 
     /**
      * Grafana user password
+     * Use {@link #apiToken} instead
      */
+    @Deprecated
     public String password;
 
     /**

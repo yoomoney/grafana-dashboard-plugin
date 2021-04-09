@@ -5,7 +5,16 @@ package ru.yoomoney.gradle.plugins.grafana.impl;
  */
 public class GrafanaUploadSettings {
     private final String url;
+    private final String apiToken;
+    /**
+     * Use {@link #apiToken} instead
+     */
+    @Deprecated
     private final String user;
+    /**
+     * Use {@link #apiToken} instead
+     */
+    @Deprecated
     private final String password;
     private final String folderId;
     private final boolean overwrite;
@@ -13,6 +22,7 @@ public class GrafanaUploadSettings {
     @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     private GrafanaUploadSettings(Builder builder) {
         url = builder.url;
+        apiToken = builder.apiToken;
         user = builder.user;
         password = builder.password;
         folderId = builder.folderId;
@@ -25,6 +35,13 @@ public class GrafanaUploadSettings {
      */
     String getUrl() {
         return url;
+    }
+
+    /**
+     * Grafana authentication api token
+     */
+    String getApiToken() {
+        return apiToken;
     }
 
     /**
@@ -65,6 +82,7 @@ public class GrafanaUploadSettings {
     public static final class Builder {
 
         private String url;
+        private String apiToken;
         private String user;
         private String password;
         private String folderId;
@@ -72,6 +90,11 @@ public class GrafanaUploadSettings {
 
         public Builder withUrl(String val) {
             url = val;
+            return this;
+        }
+
+        public Builder withApiToken(String val) {
+            apiToken = val;
             return this;
         }
 
