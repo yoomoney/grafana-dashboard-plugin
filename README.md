@@ -39,7 +39,7 @@ plugins {
 
 grafana {
     // Required, URL to Grafana
-    url = 'https://grafana.yooteam.ru'
+    url = 'https://grafana.example.ru'
     
     // Required, Grafana username
     user = 'testUser'
