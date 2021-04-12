@@ -1,3 +1,6 @@
+### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_DESCRIPTION_BEGIN
+### NEXT_VERSION_DESCRIPTION_END
 ## [5.0.1](https://github.com/yoomoney-gradle-plugins/grafana-dashboard-plugin/pull/4) (12-04-2021)
 
 * Добавлены CODEOWNERS
