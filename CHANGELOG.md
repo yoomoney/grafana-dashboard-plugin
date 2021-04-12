@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=PATCH
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [5.0.1](https://github.com/yoomoney-gradle-plugins/grafana-dashboard-plugin/pull/4) (12-04-2021)
+
 * Добавлены CODEOWNERS
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [5.0.0](https://github.com/yoomoney-gradle-plugins/grafana-dashboard-plugin/pull/2) (30-03-2021)
 
 * ***breaking_changes*** Renamed package ru.yoomoney.tech.plugins -> ru.yoomoney.gradle.plugins
