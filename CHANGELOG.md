@@ -1,3 +1,6 @@
+### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_DESCRIPTION_BEGIN
+### NEXT_VERSION_DESCRIPTION_END
 ## [5.1.0](https://github.com/yoomoney-gradle-plugins/grafana-dashboard-plugin/pull/3) (13-04-2021)
 
 * Token based authentication added (https://grafana.com/docs/grafana/latest/http_api/auth/)
