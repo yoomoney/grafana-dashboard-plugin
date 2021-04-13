@@ -33,6 +33,7 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
     void uploadGrafanaDashboards() {
         GrafanaUploadSettings grafanaUploadSettings = new GrafanaUploadSettings.Builder()
                 .withUrl(grafanaDashboardExtension.url)
+                .withApiToken(grafanaDashboardExtension.apiToken)
                 .withUser(grafanaDashboardExtension.user)
                 .withPassword(grafanaDashboardExtension.password)
                 .withFolderId(grafanaDashboardExtension.folderId)

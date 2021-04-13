@@ -41,11 +41,8 @@ grafana {
     // Required, URL to Grafana
     url = 'https://grafana.example.ru'
     
-    // Required, Grafana username
-    user = 'testUser'
-    
-    // Required, Grafana user password
-    password = 'test'
+    // Required, Grafana authentication API token 
+    apiToken = 'apiToken'
     
     // Directory with dashboards descriptions, default is: 'grafana'
     dir = 'grafana'
