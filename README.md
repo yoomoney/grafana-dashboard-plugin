@@ -1,5 +1,5 @@
-[![Build Status](https://api.travis-ci.com/yoomoney-gradle-plugins/grafana-dashboard-plugin.svg?branch=master)](https://travis-ci.com/yoomoney-gradle-plugins/grafana-dashboard-plugin)
-[![codecov](https://codecov.io/gh/yoomoney-gradle-plugins/grafana-dashboard-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/yoomoney-gradle-plugins/grafana-dashboard-plugin)
+[![Build Status](https://api.travis-ci.com/yoomoney/grafana-dashboard-plugin.svg?branch=master)](https://travis-ci.com/yoomoney/grafana-dashboard-plugin)
+[![codecov](https://codecov.io/gh/yoomoney/grafana-dashboard-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/yoomoney/grafana-dashboard-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Grafana Dashboard Plugin
