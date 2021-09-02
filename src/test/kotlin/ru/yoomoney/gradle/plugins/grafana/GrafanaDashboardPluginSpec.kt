@@ -87,6 +87,7 @@ class GrafanaDashboardPluginSpec {
                     url = 'http://localhost:$grafanaPort'
                     classpath += sourceSets.main.output
                     printCollectedDashboards = true
+                    trustAllSslCertificates = true
                 }
 
                 $repositories

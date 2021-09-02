@@ -18,6 +18,7 @@ public class GrafanaUploadSettings {
     private final String password;
     private final String folderId;
     private final boolean overwrite;
+    private final boolean trustAllSslCertificates;
 
     @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
     private GrafanaUploadSettings(Builder builder) {
@@ -27,6 +28,7 @@ public class GrafanaUploadSettings {
         password = builder.password;
         folderId = builder.folderId;
         overwrite = builder.overwrite == null ? false : builder.overwrite;
+        trustAllSslCertificates = builder.trustAllSslCertificates == null ? false : builder.trustAllSslCertificates;
 
     }
 
@@ -72,6 +74,13 @@ public class GrafanaUploadSettings {
         return overwrite;
     }
 
+    /**
+     * Trust all SSL certificates
+     */
+    public boolean isTrustAllSslCertificates() {
+        return trustAllSslCertificates;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -87,6 +96,7 @@ public class GrafanaUploadSettings {
         private String password;
         private String folderId;
         private Boolean overwrite;
+        private Boolean trustAllSslCertificates;
 
         public Builder withUrl(String val) {
             url = val;
@@ -115,6 +125,11 @@ public class GrafanaUploadSettings {
 
         public Builder withOverwrite(Boolean val) {
             overwrite = val;
+            return this;
+        }
+
+        public Builder withTrustAllSslCertificates(Boolean val) {
+            trustAllSslCertificates = val;
             return this;
         }
 
