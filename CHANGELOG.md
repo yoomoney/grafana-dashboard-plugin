@@ -1,3 +1,6 @@
+### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_DESCRIPTION_BEGIN
+### NEXT_VERSION_DESCRIPTION_END
 ## [5.3.0](https://github.com/yoomoney/grafana-dashboard-plugin/pull/6) (02-09-2021)
 
 * Added support for ignoring SSL validation errors. Use `trustAllSslCertificates` = `true` to enable this feature.
