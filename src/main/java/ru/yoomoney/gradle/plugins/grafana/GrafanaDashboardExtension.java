@@ -56,4 +56,9 @@ public class GrafanaDashboardExtension {
      */
     public Boolean printCollectedDashboards = false;
 
+    /**
+     * Trust all SSL certificates
+     */
+    public Boolean trustAllSslCertificates = false;
+
 }

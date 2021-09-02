@@ -1,11 +1,16 @@
 package ru.yoomoney.gradle.plugins.grafana.impl;
 
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -35,7 +40,19 @@ public class GrafanaDashboardUploader {
             return;
         }
 
-        try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
+        HttpClientBuilder clientBuilder = HttpClientBuilder.create();
+
+        if (grafanaUploadSettings.isTrustAllSslCertificates()) {
+            try {
+                SSLContextBuilder contextBuilder = new SSLContextBuilder()
+                        .loadTrustMaterial((chain, authType) -> true);
+                clientBuilder.setSSLSocketFactory(new SSLConnectionSocketFactory(contextBuilder.build()));
+            } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+                throw new IllegalStateException("Failed to load trust material", e);
+            }
+        }
+
+        try (CloseableHttpClient client = clientBuilder.build()) {
             DashboardSender sender = new DashboardSender(client, grafanaUploadSettings);
             dashboards.forEach(dashboardContent -> {
                 log.info("Saving dashboard content to grafana: content=\n\n{}", dashboardContent.getContent());

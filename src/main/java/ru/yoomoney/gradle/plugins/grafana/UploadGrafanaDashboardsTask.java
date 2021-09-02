@@ -38,6 +38,7 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
                 .withPassword(grafanaDashboardExtension.password)
                 .withFolderId(grafanaDashboardExtension.folderId)
                 .withOverwrite(grafanaDashboardExtension.overwrite)
+                .withTrustAllSslCertificates(grafanaDashboardExtension.trustAllSslCertificates)
                 .build();
 
         GrafanaDashboardUploader grafanaUploader = new GrafanaDashboardUploader(grafanaUploadSettings);

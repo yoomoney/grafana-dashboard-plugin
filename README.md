@@ -56,8 +56,11 @@ grafana {
     // Additional classpath to use during dashboard scripts evaluation
     classpath = null
    
-    //Print collected dashboards to stdout, default is: false
+    // Print collected dashboards to stdout, default is: false
     printCollectedDashboards = false
+
+    // Trust all SSL certificates, default is: false
+    trustAllSslCertificates = false
 }
 ```
 
@@ -87,14 +90,14 @@ an output is a description of dashboards in JSON format.
 
 It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yoomoney-tech/grafana-dashboard-dsl)
 
-SourceSet was separated into grafanaFromArtifact and grafanaFromDir for the purpoce to announce different versions of dsl.
+SourceSet was separated into grafanaFromArtifact and grafanaFromDir for the purpose to announce different versions of dsl.
 Just add a dependency to build script, in the `grafanaFromDirCompile` and `grafanaFromArtifactCompile` source set, 
 as follows:
 
 ```groovy
 dependencies {
-    grafanaFromDirCompile 'ru.yoomoney.gradle,plugins:grafana-dashboard-dsl:1.2.0'
-    grafanaFromArtifactCompile 'ru.yoomoney.gradle,plugins:grafana-dashboard-dsl:1.1.0'
+    grafanaFromDirCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.2.0'
+    grafanaFromArtifactCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.1.0'
 }
 ```
 
