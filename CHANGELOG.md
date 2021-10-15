@@ -1,7 +1,7 @@
-### NEXT_VERSION_TYPE=MINOR
-### NEXT_VERSION_DESCRIPTION_BEGIN
+## [5.4.0](https://github.com/yoomoney/grafana-dashboard-plugin/pull/7) (15-10-2021)
+
 * Now disabling printing doesn't disable compilation.
-### NEXT_VERSION_DESCRIPTION_END
+
 ## [5.3.0](https://github.com/yoomoney/grafana-dashboard-plugin/pull/6) (02-09-2021)
 
 * Added support for ignoring SSL validation errors. Use `trustAllSslCertificates` = `true` to enable this feature.
