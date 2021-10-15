@@ -1,3 +1,6 @@
+### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_DESCRIPTION_BEGIN
+### NEXT_VERSION_DESCRIPTION_END
 ## [5.4.0](https://github.com/yoomoney/grafana-dashboard-plugin/pull/7) (15-10-2021)
 
 * Now disabling printing doesn't disable compilation.
