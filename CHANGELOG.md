@@ -1,5 +1,7 @@
-### NEXT_VERSION_TYPE=MAJOR|MINOR|PATCH
+### NEXT_VERSION_TYPE=MAJOR
 ### NEXT_VERSION_DESCRIPTION_BEGIN
+* **breaking changes** gradle version updated to `7.4.1`
+* **breaking changes** `compile` configuration changed to `compileOnly`;
 ### NEXT_VERSION_DESCRIPTION_END
 ## [5.4.0](https://github.com/yoomoney/grafana-dashboard-plugin/pull/7) (15-10-2021)
 

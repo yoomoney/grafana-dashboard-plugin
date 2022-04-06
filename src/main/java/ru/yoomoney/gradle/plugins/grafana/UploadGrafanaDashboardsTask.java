@@ -1,7 +1,7 @@
 package ru.yoomoney.gradle.plugins.grafana;
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskAction;
 import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboard;
 import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboardCollector;
@@ -22,8 +22,8 @@ import static ru.yoomoney.gradle.plugins.grafana.GrafanaDashboardPlugin.DASHBOAR
  */
 public class UploadGrafanaDashboardsTask extends DefaultTask {
 
-    private Configuration grafanaFromDirConfiguration;
-    private Configuration grafanaFromArtifactConfiguration;
+    private SourceSet grafanaFromDirSourceSet;
+    private SourceSet grafanaFromArtifactSourceSet;
     private GrafanaDashboardExtension grafanaDashboardExtension;
 
     /**
@@ -43,30 +43,30 @@ public class UploadGrafanaDashboardsTask extends DefaultTask {
 
         GrafanaDashboardUploader grafanaUploader = new GrafanaDashboardUploader(grafanaUploadSettings);
 
-        List<GrafanaDashboard> dashboardsContent = getDashboardsContent(grafanaFromArtifactConfiguration,
+        List<GrafanaDashboard> dashboardsContent = getDashboardsContent(grafanaFromArtifactSourceSet,
                 Paths.get(getProject().getBuildDir().toString(), DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
         grafanaUploader.uploadDashboards(dashboardsContent);
 
-        List<GrafanaDashboard> dashboardsContentFromDir = getDashboardsContent(grafanaFromDirConfiguration,
+        List<GrafanaDashboard> dashboardsContentFromDir = getDashboardsContent(grafanaFromDirSourceSet,
                 Paths.get(getProject().getProjectDir().toString(), grafanaDashboardExtension.dir).toFile());
         grafanaUploader.uploadDashboards(dashboardsContentFromDir);
     }
 
-    private List<GrafanaDashboard> getDashboardsContent(Configuration configuration, File targetDir) {
-        return new GrafanaDashboardCollector(Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(configuration)))
+    private List<GrafanaDashboard> getDashboardsContent(SourceSet sourceSet, File targetDir) {
+        return new GrafanaDashboardCollector(Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(sourceSet)))
                 .collectDashboards(targetDir);
     }
 
-    private KotlinScriptContentCreator kotlinScriptContentCreator(Configuration grafanaConfiguration) {
-        return new KotlinScriptContentCreator(grafanaConfiguration, grafanaDashboardExtension.classpath);
+    private KotlinScriptContentCreator kotlinScriptContentCreator(SourceSet grafanaSourceSet) {
+        return new KotlinScriptContentCreator(grafanaSourceSet, grafanaDashboardExtension.classpath);
     }
 
-    void setGrafanaFromArtifactConfiguration(Configuration artifactConfiguration) {
-        this.grafanaFromArtifactConfiguration = artifactConfiguration;
+    void setGrafanaFromArtifactSourceSet(SourceSet sourceSet) {
+        this.grafanaFromArtifactSourceSet = sourceSet;
     }
 
-    void setGrafanaFromDirConfiguration(Configuration dirConfiguration) {
-        this.grafanaFromDirConfiguration = dirConfiguration;
+    void setGrafanaFromDirSourceSet(SourceSet dirSourceSet) {
+        this.grafanaFromDirSourceSet = dirSourceSet;
     }
 
     void setGrafanaDashboardExtension(GrafanaDashboardExtension grafanaDashboardExtension) {

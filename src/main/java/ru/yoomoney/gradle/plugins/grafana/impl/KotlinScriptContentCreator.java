@@ -1,8 +1,8 @@
 package ru.yoomoney.gradle.plugins.grafana.impl;
 
 import kotlin.text.Charsets;
-import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.file.FileCollection;
+import org.gradle.api.tasks.SourceSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngine;
@@ -24,10 +24,10 @@ import java.util.Objects;
 public class KotlinScriptContentCreator implements DashboardContentCreator {
     private final KotlinJsr223JvmLocalScriptEngine kotlinEngine;
 
-    public KotlinScriptContentCreator(@Nonnull Configuration grafanaConfiguration, @Nullable FileCollection grafanaClasspath) {
+    public KotlinScriptContentCreator(@Nonnull SourceSet sourceSet, @Nullable FileCollection grafanaClasspath) {
         kotlinEngine = (KotlinJsr223JvmLocalScriptEngine) new ScriptEngineManager()
                 .getEngineByExtension("kts");
-        kotlinEngine.getTemplateClasspath().addAll(grafanaConfiguration.getFiles());
+        kotlinEngine.getTemplateClasspath().addAll(sourceSet.getCompileClasspath().getFiles());
         if (Objects.nonNull(grafanaClasspath)) {
             kotlinEngine.getTemplateClasspath().addAll(grafanaClasspath.getFiles());
         }
