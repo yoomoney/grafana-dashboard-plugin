@@ -1,9 +1,9 @@
 package ru.yoomoney.gradle.plugins.grafana;
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
+import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskAction;
 import org.json.JSONObject;
 import ru.yoomoney.gradle.plugins.grafana.impl.GrafanaDashboard;
@@ -23,8 +23,8 @@ public class CollectGrafanaDashboardsTask extends DefaultTask {
 
     private final Logger log = Logging.getLogger(CollectGrafanaDashboardsTask.class);
 
-    private Configuration grafanaFromDirConfiguration;
-    private Configuration grafanaFromArtifactConfiguration;
+    private SourceSet grafanaFromDirSourceSet;
+    private SourceSet grafanaFromArtifactSourceSet;
     private GrafanaDashboardExtension grafanaDashboardExtension;
 
     /**
@@ -34,10 +34,10 @@ public class CollectGrafanaDashboardsTask extends DefaultTask {
     void collectGrafanaDashboards() {
         log.lifecycle("Collect Grafana dashboards: printCollectedDashboards={}", grafanaDashboardExtension.printCollectedDashboards);
 
-        List<GrafanaDashboard> dashboardsContentFromArtifact = getDashboardsContent(grafanaFromArtifactConfiguration,
+        List<GrafanaDashboard> dashboardsContentFromArtifact = getDashboardsContent(grafanaFromArtifactSourceSet,
                 Paths.get(getProject().getBuildDir().toString(), GrafanaDashboardPlugin.DASHBOARDS_FROM_ARTIFACT_DIR).toFile());
 
-        List<GrafanaDashboard> dashboardsContentFromDir = getDashboardsContent(grafanaFromDirConfiguration,
+        List<GrafanaDashboard> dashboardsContentFromDir = getDashboardsContent(grafanaFromDirSourceSet,
                 Paths.get(getProject().getProjectDir().toString(), grafanaDashboardExtension.dir).toFile());
 
         if (!grafanaDashboardExtension.printCollectedDashboards) {
@@ -48,8 +48,8 @@ public class CollectGrafanaDashboardsTask extends DefaultTask {
         printDashboards(dashboardsContentFromDir);
     }
 
-    private List<GrafanaDashboard> getDashboardsContent(Configuration configuration, File targetDir) {
-        return new GrafanaDashboardCollector(Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(configuration)))
+    private List<GrafanaDashboard> getDashboardsContent(SourceSet sourceSet, File targetDir) {
+        return new GrafanaDashboardCollector(Arrays.asList(new RawContentCreator(), kotlinScriptContentCreator(sourceSet)))
                 .collectDashboards(targetDir);
     }
 
@@ -60,16 +60,16 @@ public class CollectGrafanaDashboardsTask extends DefaultTask {
 
     }
 
-    private KotlinScriptContentCreator kotlinScriptContentCreator(Configuration grafanaConfiguration) {
-        return new KotlinScriptContentCreator(grafanaConfiguration, grafanaDashboardExtension.classpath);
+    private KotlinScriptContentCreator kotlinScriptContentCreator(SourceSet sourceSet) {
+        return new KotlinScriptContentCreator(sourceSet, grafanaDashboardExtension.classpath);
     }
 
-    void setGrafanaFromArtifactConfiguration(Configuration artifactConfiguration) {
-        this.grafanaFromArtifactConfiguration = artifactConfiguration;
+    void setGrafanaFromArtifactSourceSet(SourceSet artifactConfiguration) {
+        this.grafanaFromArtifactSourceSet = artifactConfiguration;
     }
 
-    void setGrafanaFromDirConfiguration(Configuration dirConfiguration) {
-        this.grafanaFromDirConfiguration = dirConfiguration;
+    void setGrafanaFromDirSourceSet(SourceSet grafanaFromDirSourceSet) {
+        this.grafanaFromDirSourceSet = grafanaFromDirSourceSet;
     }
 
     void setGrafanaDashboardExtension(GrafanaDashboardExtension grafanaDashboardExtension) {

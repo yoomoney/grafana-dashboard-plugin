@@ -68,7 +68,7 @@ grafana {
 
 The plugin supports two work scenarios.
 1. Scans the folder, configured in settings (grafana.dir)
-2. Scans the artifacts, declare in grafanaDashboardsCompile configuration
+2. Scans the artifacts, declare in grafanaDashboardsCompileOnly configuration
 
 Scans for files with dashboards description, in following formats:
 
@@ -91,13 +91,13 @@ an output is a description of dashboards in JSON format.
 It is most useful when used with another one of our projects: [Grafana Dashboard Dsl](https://github.com/yoomoney-tech/grafana-dashboard-dsl)
 
 SourceSet was separated into grafanaFromArtifact and grafanaFromDir for the purpose to announce different versions of dsl.
-Just add a dependency to build script, in the `grafanaFromDirCompile` and `grafanaFromArtifactCompile` source set, 
+Just add a dependency to build script, in the `grafanaFromDirCompileOnly` and `grafanaFromArtifactCompileOnly` source set, 
 as follows:
 
 ```groovy
 dependencies {
-    grafanaFromDirCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.2.0'
-    grafanaFromArtifactCompile 'ru.yoomoney.tech:grafana-dashboard-dsl:1.1.0'
+    grafanaFromDirCompileOnly 'ru.yoomoney.tech:grafana-dashboard-dsl:1.2.0'
+    grafanaFromArtifactCompileOnly 'ru.yoomoney.tech:grafana-dashboard-dsl:1.1.0'
 }
 ```
 
